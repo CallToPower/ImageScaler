@@ -10,7 +10,7 @@ import logging
 
 """The translation table"""
 
-_translations = {
+_translations_en = {
     'SCALED_IMAGE_SUFFIX': '-scaled',
     'GUI.ABOUT.LABEL.AUTHOR': 'Author',
     'GUI.ABOUT.LABEL.COPYRIGHT': 'Copyright',
@@ -54,6 +54,54 @@ _translations = {
     'GUI.MAIN.MENU.ITEM.QUIT': 'Quit',
     'GUI.MAIN.WINDOW.TITLE': 'ImageScaler'
 }
+
+_translations_de = {
+    'SCALED_IMAGE_SUFFIX': '-skaliert',
+    'GUI.ABOUT.LABEL.AUTHOR': 'Autor',
+    'GUI.ABOUT.LABEL.COPYRIGHT': 'Copyright',
+    'GUI.ABOUT.LABEL.VERSION': 'Version',
+    'GUI.ABOUT.LABEL.BUILD': 'Build',
+    'GUI.ABOUT.TITLE': 'Über ImageScaler',
+    'GUI.MAIN.BUTTON.SELECT_IMAGES': 'Bilder auswählen',
+    'GUI.MAIN.BUTTON.SELECT_OUTPUT_DIR': 'Auswählen',
+    'GUI.MAIN.BUTTON.PROCESS': 'Konvertierung starten',
+    'GUI.MAIN.ERROR.ERROR': 'Fehler',
+    'GUI.MAIN.ERROR.START_PROCESSING': 'Konvertierung kann nicht gestartet werden:',
+    'GUI.MAIN.ERROR.IMAGE_SIZE': 'Keine valide Bildgröße',
+    'GUI.MAIN.ERROR.NO_OUTPUT_DIR_SELECTED': 'Kein Ausgabeverzeichnis ausgewählt',
+    'GUI.MAIN.ERROR.NO_IMAGES_SELECTED': 'Keine Bildquellen ausgewählt',
+    'GUI.MAIN.LABEL.IMAGE_SIZE': 'Bildgröße:',
+    'GUI.MAIN.LABEL.IMAGE_SIZE_WIDTH': 'px (Breite)',
+    'GUI.MAIN.LABEL.IMAGE_SIZE_TIMES': '     x',
+    'GUI.MAIN.LABEL.IMAGE_SIZE_HEIGHT': 'px (Höhe)',
+    'GUI.MAIN.LABEL.IMAGE_SIZE_INFO': 'Dynamische Skalierung ist aktiv. Breite oder Höhe können leer gelassen werden.',
+    'GUI.MAIN.LABEL.OUTPUT_DIR': 'Verzeichnis:',
+    'GUI.MAIN.LABEL.PDF': 'PDF:',
+    'GUI.MAIN.CHECKBOX.CHECKBOX_CREATE_PDF': 'PDF-Datei mit allen Bildern erstellen',
+    'GUI.MAIN.LABEL.INPUT': 'Eingabe',
+    'GUI.MAIN.LABEL.SETTINGS': 'Ausgabe',
+    'GUI.MAIN.LABEL.PROCESS': 'Verarbeite',
+    'GUI.MAIN.LABEL.SELECTED_IMAGES': 'Ausgewählte Bilder:',
+    'GUI.MAIN.LOG.SELECT_IMAGES': 'Bitte wähle ein oder mehrere Bilder aus',
+    'GUI.MAIN.LOG.SELECT_IMAGES_SUCCESS': '{} Bilder ausgewählt',
+    'GUI.MAIN.LOG.SELECT_IMAGES_CANCEL': 'Bildauswahl abgebrochen',
+    'GUI.MAIN.LOG.SELECT_OUTPUT_DIR': 'Bitte wähle ein Ausgabeverzeichnis aus',
+    'GUI.MAIN.LOG.SELECT_OUTPUT_DIR_SUCCESS': '"{}" als Ausgabeverzeichnis ausgewählt',
+    'GUI.MAIN.LOG.SELECT_OUTPUT_DIR_CANCEL': 'Ausgabeverzeichniswahl abgebrochen',
+    'GUI.MAIN.LOG.START_PROCESSING': 'Starte Verarbeitung',
+    'GUI.MAIN.LOG.DONE_PROCESSING': '{}/{} Bilder erfolgreich verarbeitet',
+    'GUI.MAIN.LOG.ERROR_PROCESSING': 'Bildverarbeitung fehlgeschlagen',
+    'GUI.MAIN.LOG.WELCOME_MESSAGE': 'Willkommen!',
+    'GUI.MAIN.DIALOG.SELECT': 'Wähle Bilddateien aus',
+    'GUI.MAIN.WIDGET.REMOVE': 'Entfernen',
+    'GUI.MAIN.MENU.APPNAME': 'ImageScaler',
+    'GUI.MAIN.MENU.ITEM.ABOUT': 'Über',
+    'GUI.MAIN.MENU.ITEM.QUIT': 'Beenden',
+    'GUI.MAIN.WINDOW.TITLE': 'ImageScaler'
+}
+
+# TODO
+_translations = _translations_de
 
 
 def translate(key, default=''):
