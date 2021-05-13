@@ -12,9 +12,9 @@ import logging
 
 from fbs_runtime.application_context import cached_property
 from fbs_runtime.application_context.PyQt5 import ApplicationContext
-#from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap
 
-#from lib.AppConfig import app_conf_get, app_conf_set
+from lib.AppConfig import app_conf_get, app_conf_set
 from gui.components.MainWindow import MainWindow
 
 
