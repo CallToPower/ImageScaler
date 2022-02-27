@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright 2019-2020 Denis Meyer
+# Copyright 2019-2022 Denis Meyer
 #
 # This file is part of ImageScaler.
 #
@@ -10,17 +10,44 @@
 
 import logging
 import sys
+import os
 
-from gui.components.AppContext import AppContext
+from PyQt5 import QtWidgets
+from PyQt5.QtGui import QPixmap
 
+from lib.AppConfig import app_conf_get, app_conf_set
+from gui.components.MainWindow import MainWindow
 
 class GUI():
     """Main GUI"""
 
-    def __init__(self):
-        """Initializes the GUI"""
+    def __init__(self, basedir):
+        """Initializes the GUI
+        
+        :param basedir: The base directory"""
         logging.debug('Initializing MainGUI')
+        self.basedir = basedir
 
-        appctxt = AppContext()
-        exit_code = appctxt.run()
-        sys.exit(exit_code)
+
+    def img_logo_app(self):
+        """The application logo"""
+        path = os.path.join(self.basedir, 'resources', 'logo-app.png')
+        logging.debug('Getting {}'.format(path))
+        return QPixmap(path) if os.path.exists(path) else None
+
+
+    def run(self):
+        """Initializes and shows the GUI"""
+        logging.debug('Initializing AppContext GUI')
+
+        app = QtWidgets.QApplication(sys.argv)
+
+        app_conf_set('img_logo_app', self.img_logo_app())
+
+        self.main_window = MainWindow()
+        self.main_window.init_ui()
+        self.main_window.show()
+
+        app.exec()
+
+        sys.exit(0)

@@ -31,11 +31,27 @@ GUI written in PyQt 5. Graphical installers for both, Mac OS and Windows.
 * Install the required libraries
   * `pip install -r requirements.txt`
 * Run the app
-  * `python -m fbs run`
+  * `python src/main/python/Main.py`
 
 ## Shipping
 
 * Freeze the app (create an executable)
-  * `python -m fbs freeze`
-* Build an installer (create an installer)
-  * `python -m fbs installer`
+  * `pyinstaller ImageScaler.spec`
+
+## Development: macOS
+
+CFLAGS="-I$(brew --prefix openssl)/include -I$(brew --prefix bzip2)/include -I$(brew --prefix readline)/include -I$(xcrun --show-sdk-path)/usr/include" LDFLAGS="-L$(brew --prefix openssl)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib" env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install --patch 3.6.12 < <(curl -sSL https://github.com/python/cpython/commit/8ea6353.patch\?full_index\=1)
+
+/Users/<user>/.pyenv/versions/3.6.12/bin/python -m venv venv
+
+source venv/bin/activate
+
+pip install --upgrade pip
+
+pip install -r requirements.txt
+
+python src/main/python/Main.py
+
+pyinstaller ImageScaler.spec
+
+(Initially created .spec file with: pyinstaller --windowed src/main/python/Main.py --noconfirm --name "ImageScaler" --icon "src/main/icons/icons.icns")

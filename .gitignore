@@ -6,3 +6,5 @@ files/**
 /target
 /resources
 /logs
+/build
+/dist

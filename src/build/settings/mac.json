@@ -1,6 +1,0 @@
-{
-    "mac_bundle_identifier": "com.calltopower",
-    "resources_to_filter": [
-        "src/main/resources/mac/Contents/Info.plist"
-    ]
-}

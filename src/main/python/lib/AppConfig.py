@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: 'utf-8 -*-
 #
-# Copyright 2019-2020 Denis Meyer
+# Copyright 2019-2022 Denis Meyer
 #
 # This file is part of ImageScaler.
 #
@@ -16,11 +16,11 @@ import os
 
 _app_config = {
     'author': 'Denis Meyer',
-    'version': '1.0.0',
-    'build': '2020-04-03-1',
-    'copyright': '© 2019-2020 Denis Meyer',
+    'version': '1.1.0',
+    'build': '2022-02-27-1',
+    'copyright': '© 2019-2022 Denis Meyer',
     'img_logo_app': None,
-    'logging.log_to_file': True,
+    'logging.log_to_file': False,
     'logging.loglevel': logging.DEBUG,
     'logging.format': '[%(asctime)s] [%(levelname)-5s] [%(module)-20s:%(lineno)-4s] %(message)s',
     'logging.datefmt': '%d-%m-%Y %H:%M:%S',

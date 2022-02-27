@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright 2019-2020 Denis Meyer
+# Copyright 2019-2022 Denis Meyer
 #
 # This file is part of ImageScaler.
 #
@@ -122,7 +122,7 @@ class MainWidget(QWidget):
         self.edit_image_size_width = QLineEdit()
         self.edit_image_size_width.setValidator(QIntValidator())
         self.edit_image_size_width.setMaxLength(self.max_img_size_digits)
-        self.edit_image_size_width.setText('')
+        self.edit_image_size_width.setText('1280')
         self.components.append(self.edit_image_size_width)
 
         self.edit_image_size_height = QLineEdit()

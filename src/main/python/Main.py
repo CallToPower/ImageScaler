@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright 2019-2020 Denis Meyer
+# Copyright 2019-2022 Denis Meyer
 #
 # This file is part of ImageScaler.
 #
@@ -39,6 +39,11 @@ def _initialize_logger():
 
 
 if __name__ == '__main__':
+    print('Current working directory: {}'.format(os.getcwd()))
+
     _initialize_logger()
 
-    gui = GUI()
+    basedir = os.path.dirname(__file__)
+
+    gui = GUI(basedir)
+    gui.run()
