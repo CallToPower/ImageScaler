@@ -15,17 +15,21 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QDialog, QDesktopWidget, QGridLayout, QLabel
 
 from lib.AppConfig import app_conf_get
-from i18n.Translations import translate
 
 
 class AboutDialog(QDialog):
     """Main window GUI"""
 
-    def __init__(self):
-        """Initializes the about dialog"""
+    def __init__(self, i18n):
+        """Initializes the about dialog
+        
+        :param i18n: The I18n
+        """
         super().__init__()
 
         logging.debug('Initializing AboutDialog')
+
+        self.i18n = i18n
 
         self.setModal(True)
 
@@ -33,7 +37,7 @@ class AboutDialog(QDialog):
         """Initiates about dialog UI"""
         logging.debug('Initializing AboutDialog GUI')
 
-        self.setWindowTitle(translate('GUI.ABOUT.TITLE'))
+        self.setWindowTitle(self.i18n.translate('GUI.ABOUT.TITLE'))
 
         self.resize(450, 250)
 
@@ -52,23 +56,22 @@ class AboutDialog(QDialog):
         self.grid.setSpacing(10)
 
         self.label_empty = QLabel(' ')
-        self.label_author = QLabel(translate('GUI.ABOUT.LABEL.AUTHOR'))
+        self.label_author = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.AUTHOR'))
         self.label_author.setFont(self.font_label)
         self.label_author_val = QLabel(app_conf_get('author'))
-        self.label_copyright = QLabel(translate('GUI.ABOUT.LABEL.COPYRIGHT'))
+        self.label_copyright = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.COPYRIGHT'))
         self.label_copyright.setFont(self.font_label)
         self.label_copyright_val = QLabel(app_conf_get('copyright'))
-        self.label_version = QLabel(translate('GUI.ABOUT.LABEL.VERSION'))
+        self.label_version = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.VERSION'))
         self.label_version.setFont(self.font_label)
         self.label_version_val = QLabel(app_conf_get('version'))
-        self.label_build = QLabel(translate('GUI.ABOUT.LABEL.BUILD'))
+        self.label_build = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.BUILD'))
         self.label_build.setFont(self.font_label)
         self.label_build_val = QLabel(app_conf_get('build'))
 
-        if app_conf_get('img_logo_app') is not None:
+        if app_conf_get('img.logo_app') is not None:
             self.label_img = QLabel()
-            self.label_img.setPixmap(
-                app_conf_get('img_logo_app').scaled(280, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.label_img.setPixmap(app_conf_get('img.logo_app').scaled(280, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation))
             curr_gridid = 1
             self.grid.addWidget(self.label_img, curr_gridid, 1, 1, 2)
 

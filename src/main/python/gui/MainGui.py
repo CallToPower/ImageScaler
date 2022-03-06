@@ -13,7 +13,7 @@ import sys
 import os
 
 from PyQt5 import QtWidgets
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 
 from lib.AppConfig import app_conf_get, app_conf_set
 from gui.components.MainWindow import MainWindow
@@ -36,13 +36,25 @@ class GUI():
         return QPixmap(path) if os.path.exists(path) else None
 
 
+    def img_flag(self, lang):
+        """The application logo
+        
+        :param lang: Language
+        """
+        path = os.path.join(self.basedir, 'resources', 'flags', '{}.png'.format(lang))
+        logging.debug('Getting {}'.format(path))
+        return QIcon(path) if os.path.exists(path) else None
+
+
     def run(self):
         """Initializes and shows the GUI"""
         logging.debug('Initializing AppContext GUI')
 
         app = QtWidgets.QApplication(sys.argv)
 
-        app_conf_set('img_logo_app', self.img_logo_app())
+        app_conf_set('img.logo_app', self.img_logo_app())
+        app_conf_set('img.flag.en', self.img_flag('en'))
+        app_conf_set('img.flag.de', self.img_flag('de'))
 
         self.main_window = MainWindow()
         self.main_window.init_ui()

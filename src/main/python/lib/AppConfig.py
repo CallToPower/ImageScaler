@@ -16,10 +16,12 @@ import os
 
 _app_config = {
     'author': 'Denis Meyer',
-    'version': '1.1.0',
-    'build': '2022-02-27-1',
+    'version': '2.0.0',
+    'build': '2022-03-06-1',
     'copyright': '© 2019-2022 Denis Meyer',
-    'img_logo_app': None,
+    'img.logo_app': None,
+    'img.flag.en': None,
+    'img.flag.de': None,
     'logging.log_to_file': False,
     'logging.loglevel': logging.DEBUG,
     'logging.format': '[%(asctime)s] [%(levelname)-5s] [%(module)-20s:%(lineno)-4s] %(message)s',
