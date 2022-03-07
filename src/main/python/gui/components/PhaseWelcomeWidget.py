@@ -22,13 +22,14 @@ from lib.AppConfig import app_conf_get
 class PhaseWelcomeWidget(QWidget):
     """Phase Welcome widget GUI"""
 
-    def __init__(self, i18n, log, cb_next_phase, cb_change_language):
+    def __init__(self, i18n, log, cb_next_phase, cb_change_language, image_cache):
         """Initializes the widget
 
         :param i18n: The I18n
         :param log: The (end user) message log
         :param cb_next_phase: Next phase callback
         :param cb_change_language: Change language callback
+        :param image_cache: The image cache
         """
         super().__init__()
 
@@ -38,6 +39,7 @@ class PhaseWelcomeWidget(QWidget):
         self.log = log
         self.cb_next_phase = cb_next_phase
         self.cb_change_language = cb_change_language
+        self.image_cache = image_cache
 
         self.components = []
 
@@ -47,11 +49,11 @@ class PhaseWelcomeWidget(QWidget):
 
         self.font_label_header = QFont()
         self.font_label_header.setBold(True)
-        self.font_label_header.setPointSize(20)
+        self.font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
 
         self.font_label_info = QFont()
         self.font_label_info.setBold(False)
-        self.font_label_info.setPointSize(16)
+        self.font_label_info.setPointSize(app_conf_get('label.info.font.size', 16))
 
         self.line_css = 'background-color: #c0c0c0;'
 
@@ -79,14 +81,16 @@ class PhaseWelcomeWidget(QWidget):
 
         self.button_lang_en = QPushButton(self.i18n.translate('GUI.PHASE.WELCOME.LANG.EN'))
         self.button_lang_en.clicked[bool].connect(self._change_lang_en)
-        if app_conf_get('img.flag.en') is not None:
-            self.button_lang_en.setIcon(app_conf_get('img.flag.en'))
+        flag_en = self.image_cache.get_or_load_icon('img.flag.en', 'en.png', 'flags')
+        if flag_en is not None:
+            self.button_lang_en.setIcon(flag_en)
         self.components.append(self.button_lang_en)
 
         self.button_lang_de = QPushButton(self.i18n.translate('GUI.PHASE.WELCOME.LANG.DE'))
         self.button_lang_de.clicked[bool].connect(self._change_lang_de)
-        if app_conf_get('img.flag.de') is not None:
-            self.button_lang_de.setIcon(app_conf_get('img.flag.de'))
+        flag_de = self.image_cache.get_or_load_icon('img.flag.de', 'de.png', 'flags')
+        if flag_de is not None:
+            self.button_lang_de.setIcon(flag_de)
         self.components.append(self.button_lang_de)
 
         self.button_start = QPushButton(self.i18n.translate('GUI.PHASE.WELCOME.START'))

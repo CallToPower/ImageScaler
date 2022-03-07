@@ -17,6 +17,8 @@ from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButt
 
 from gui.components.ListWidget import ListWidget
 
+from lib.AppConfig import app_conf_get
+
 
 class PhaseInputWidget(QWidget):
     """Phase Input widget GUI"""
@@ -45,11 +47,11 @@ class PhaseInputWidget(QWidget):
 
         self.font_label_header = QFont()
         self.font_label_header.setBold(True)
-        self.font_label_header.setPointSize(20)
+        self.font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
 
         self.font_label_header_small = QFont()
         self.font_label_header_small.setBold(False)
-        self.font_label_header_small.setPointSize(18)
+        self.font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
 
         self.line_css = 'background-color: #c0c0c0;'
         self.max_img_size_digits = 5

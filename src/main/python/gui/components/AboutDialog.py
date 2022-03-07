@@ -16,20 +16,21 @@ from PyQt5.QtWidgets import QDialog, QDesktopWidget, QGridLayout, QLabel
 
 from lib.AppConfig import app_conf_get
 
-
 class AboutDialog(QDialog):
     """Main window GUI"""
 
-    def __init__(self, i18n):
+    def __init__(self, i18n, image_cache):
         """Initializes the about dialog
         
         :param i18n: The I18n
+        :param image_cache: The image cache
         """
         super().__init__()
 
         logging.debug('Initializing AboutDialog')
 
         self.i18n = i18n
+        self.image_cache = image_cache
 
         self.setModal(True)
 
@@ -69,9 +70,10 @@ class AboutDialog(QDialog):
         self.label_build.setFont(self.font_label)
         self.label_build_val = QLabel(app_conf_get('build'))
 
-        if app_conf_get('img.logo_app') is not None:
+        logo = self.image_cache.get_or_load_pixmap('img.logo_app', 'logo-app.png')
+        if logo is not None:
             self.label_img = QLabel()
-            self.label_img.setPixmap(app_conf_get('img.logo_app').scaled(280, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.label_img.setPixmap(logo.scaled(app_conf_get('about.logo.scaled.width', 280), app_conf_get('about.logo.scaled.height', 80), Qt.KeepAspectRatio, Qt.SmoothTransformation))
             curr_gridid = 1
             self.grid.addWidget(self.label_img, curr_gridid, 1, 1, 2)
 

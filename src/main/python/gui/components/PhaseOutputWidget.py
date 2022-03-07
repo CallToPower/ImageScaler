@@ -14,6 +14,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QIntValidator
 from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QCheckBox, QLineEdit, QPushButton, QFileDialog, QMessageBox
 
+from lib.AppConfig import app_conf_get
+
 
 class PhaseOutputWidget(QWidget):
     """Phase Output widget GUI"""
@@ -46,19 +48,19 @@ class PhaseOutputWidget(QWidget):
 
         self.font_label_header = QFont()
         self.font_label_header.setBold(True)
-        self.font_label_header.setPointSize(20)
+        self.font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
 
         self.font_label_header_small = QFont()
         self.font_label_header_small.setBold(False)
-        self.font_label_header_small.setPointSize(18)
+        self.font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
 
         self.font_label_info = QFont()
         self.font_label_info.setBold(False)
-        self.font_label_info.setPointSize(16)
+        self.font_label_info.setPointSize(app_conf_get('label.info.font.size', 16))
 
         self.font_label_info_small = QFont()
         self.font_label_info_small.setBold(False)
-        self.font_label_info_small.setPointSize(12)
+        self.font_label_info_small.setPointSize(app_conf_get('label.info.small.font.size', 12))
 
         self.line_css = 'background-color: #c0c0c0;'
         self.max_img_size_digits = 5

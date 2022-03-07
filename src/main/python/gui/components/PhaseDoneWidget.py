@@ -14,6 +14,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton
 
+from lib.AppConfig import app_conf_get
+
 
 class PhaseDoneWidget(QWidget):
     """Phase Done widget GUI"""
@@ -45,11 +47,11 @@ class PhaseDoneWidget(QWidget):
 
         self.font_label_header = QFont()
         self.font_label_header.setBold(True)
-        self.font_label_header.setPointSize(20)
+        self.font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
 
         self.font_label_info = QFont()
         self.font_label_info.setBold(False)
-        self.font_label_info.setPointSize(16)
+        self.font_label_info.setPointSize(app_conf_get('label.info.font.size', 16))
 
         # Components
 

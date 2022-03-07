@@ -16,6 +16,8 @@ from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButt
 
 from gui.threads.ScalerThread import ScalerThread
 
+from lib.AppConfig import app_conf_get
+
 
 class PhaseConversionWidget(QWidget):
     """Phase Conversion widget GUI"""
@@ -52,19 +54,19 @@ class PhaseConversionWidget(QWidget):
 
         self.font_label_header = QFont()
         self.font_label_header.setBold(True)
-        self.font_label_header.setPointSize(20)
+        self.font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
 
         self.font_label_header_small = QFont()
         self.font_label_header_small.setBold(False)
-        self.font_label_header_small.setPointSize(18)
+        self.font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
 
         self.font_label_info = QFont()
         self.font_label_info.setBold(False)
-        self.font_label_info.setPointSize(16)
+        self.font_label_info.setPointSize(app_conf_get('label.info.font.size', 16))
 
         self.font_label_info_small = QFont()
         self.font_label_info_small.setBold(False)
-        self.font_label_info_small.setPointSize(12)
+        self.font_label_info_small.setPointSize(app_conf_get('label.info.small.font.size', 12))
 
         self.line_css = 'background-color: #c0c0c0;'
 
@@ -308,7 +310,8 @@ class PhaseConversionWidget(QWidget):
                     height=height,
                     outdir=outdir,
                     createpdf=self.config['CREATE_PDF'] if 'CREATE_PDF' in self.config else True,
-                    scaled_image_suffix=self.i18n.translate('SCALED_IMAGE_SUFFIX'))
+                    scaled_image_suffix=self.i18n.translate('SCALED_IMAGE_SUFFIX'),
+                    pdf_name=self.i18n.translate('PDF.NAME'))
                 thread.signals.scalingresult.connect(self._callback_processing_result)
                 thread.signals.scalingerror.connect(self._callback_processing_error)
                 thread.signals.scalingfinished.connect(self._callback_processing_finished)

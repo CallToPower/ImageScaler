@@ -22,7 +22,7 @@ from gui.signals.WorkerSignals import WorkerSignals
 class ScalerThread(QRunnable):
     """Image scaler thread"""
 
-    def __init__(self, images=[], width=None, height=None, outdir='', createpdf=True, scaled_image_suffix='-scaled'):
+    def __init__(self, images=[], width=None, height=None, outdir='', createpdf=True, scaled_image_suffix='-scaled', pdf_name='AllImages'):
         """Initializes the thread
 
         :param images: The images
@@ -41,7 +41,7 @@ class ScalerThread(QRunnable):
         self.createpdf = createpdf
         self.scaled_image_suffix = scaled_image_suffix
 
-        self.pdf_name = 'AllImages'
+        self.pdf_name = pdf_name
 
         self.signals = WorkerSignals()
 

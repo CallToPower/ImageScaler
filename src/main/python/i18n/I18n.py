@@ -14,6 +14,7 @@ from gui.enums.Language import Language
 
 _translations_en = {
     'SCALED_IMAGE_SUFFIX': '-scaled',
+    'PDF.NAME': 'AllImages',
     'GUI.ABOUT.LABEL.AUTHOR': 'Author',
     'GUI.ABOUT.LABEL.COPYRIGHT': 'Copyright',
     'GUI.ABOUT.LABEL.VERSION': 'Version',
@@ -94,6 +95,7 @@ _translations_en = {
 
 _translations_de = {
     'SCALED_IMAGE_SUFFIX': '-skaliert',
+    'PDF.NAME': 'AlleBilder',
     'GUI.ABOUT.LABEL.AUTHOR': 'Autor',
     'GUI.ABOUT.LABEL.COPYRIGHT': 'Copyright',
     'GUI.ABOUT.LABEL.VERSION': 'Version',

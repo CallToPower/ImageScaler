@@ -17,11 +17,16 @@ import os
 _app_config = {
     'author': 'Denis Meyer',
     'version': '2.0.0',
-    'build': '2022-03-06-1',
+    'build': '2022-03-07-1',
     'copyright': '© 2019-2022 Denis Meyer',
-    'img.logo_app': None,
-    'img.flag.en': None,
-    'img.flag.de': None,
+    'window.width': 800,
+    'window.height': 500,
+    'about.logo.scaled.width': 280,
+    'about.logo.scaled.height': 80,
+    'label.header.font.size': 20,
+    'label.header.small.font.size': 18,
+    'label.info.font.size': 16,
+    'label.info.small.font.size': 12,
     'logging.log_to_file': False,
     'logging.loglevel': logging.DEBUG,
     'logging.format': '[%(asctime)s] [%(levelname)-5s] [%(module)-20s:%(lineno)-4s] %(message)s',
@@ -48,6 +53,5 @@ def app_conf_get(key, default=''):
     try:
         return _app_config[key]
     except KeyError as exception:
-        logging.error(
-            'Returning default for key "{}": "{}"'.format(key, exception))
+        logging.error('Returning default for key "{}": "{}"'.format(key, exception))
         return default

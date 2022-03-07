@@ -24,15 +24,22 @@ from gui.components.PhaseDoneWidget import PhaseDoneWidget
 from gui.components.AboutDialog import AboutDialog
 from gui.enums.GUIState import GUIState
 
+from lib.AppConfig import app_conf_get
+
 
 class MainWindow(QMainWindow):
     """Main window GUI"""
 
-    def __init__(self):
-        """Initializes the main window"""
+    def __init__(self, image_cache):
+        """Initializes the main window
+
+        :param image_cache: The image cache
+        """
         super().__init__()
 
         logging.debug('Initializing MainWindow')
+
+        self.image_cache = image_cache
 
         self.i18n = I18n(Language.DE)
         self.state = None
@@ -61,14 +68,14 @@ class MainWindow(QMainWindow):
 
         self.next_phase()
 
-        self.resize(800, 500)
+        self.resize(app_conf_get('window.width', 800), app_conf_get('window.height', 500))
 
         self._center()
 
     def _show_about_dialog(self):
         """Displays the about dialog"""
         logging.debug('Displaying AboutDialog')
-        about = AboutDialog(self.i18n)
+        about = AboutDialog(i18n=self.i18n, image_cache=self.image_cache)
         about.init_ui()
         about.exec_()
 
@@ -226,7 +233,8 @@ class MainWindow(QMainWindow):
                                         log=self.show_message,
                                         cb_next_phase=self.next_phase,
                                         cb_change_language=self._change_language,
-                                        i18n=self.i18n)
+                                        i18n=self.i18n,
+                                        image_cache=self.image_cache)
         self.phase_input_widget = PhaseInputWidget(
                                         log=self.show_message,
                                         cb_next_phase=self.next_phase,
