@@ -3,7 +3,7 @@
 * Scales images
 * Option for creating a PDF containing all images
 
-GUI written in PyQt 5. Graphical installers for both, Mac OS and Windows.
+GUI written in PyQt 5.
 
 
 
