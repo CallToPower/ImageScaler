@@ -63,6 +63,7 @@ class MainWindow(QMainWindow):
         self.config = {}
         self.nr_converted_images = 0
         self.nr_all_images = 0
+        self.pdf_written = False
 
         self._init_phases()
 
@@ -198,11 +199,11 @@ class MainWindow(QMainWindow):
 
         self.nr_converted_images = self.phase_conversion_widget.get_nr_converted_images()
         self.nr_all_images = self.phase_conversion_widget.get_nr_all_images()
-        self.config['CREATE_PDF'] = self.phase_conversion_widget.isPdfWritten()
+        self.pdf_written = self.phase_conversion_widget.isPdfWritten()
         self.phase_done_widget.set_config(
             self.nr_converted_images,
             self.nr_all_images,
-            self.config['CREATE_PDF'])
+            self.pdf_written)
         self.phase_done_widget.init_ui()
         self.setCentralWidget(self.phase_done_widget)
 
@@ -223,6 +224,7 @@ class MainWindow(QMainWindow):
         self.config = {}
         self.nr_converted_images = 0
         self.nr_all_images = 0
+        self.pdf_written = False
 
         self._init_phases()
 
