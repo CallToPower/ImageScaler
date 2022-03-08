@@ -17,7 +17,7 @@ import os
 _app_config = {
     'author': 'Denis Meyer',
     'version': '2.0.0',
-    'build': '2022-03-07-1',
+    'build': '2022-03-08-1',
     'copyright': '© 2019-2022 Denis Meyer',
     'window.width': 800,
     'window.height': 500,
