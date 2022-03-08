@@ -41,6 +41,7 @@ class PhaseConversionWidget(QWidget):
 
         self.images = []
         self.config = {}
+        self.pdf_written = False
 
         self.img_processed = 0
         self.img_cnt = 0
@@ -246,17 +247,21 @@ class PhaseConversionWidget(QWidget):
 
         self._reset_enabled()
 
-    def _callback_processing_finished(self, img_processed, img_cnt):
+    def _callback_processing_finished(self, img_processed, img_cnt, pdf_written):
         """The processing callback, on finished
 
         :param img_processed: Number of processed images
         :param img_cnt: Number of images
+        :param pdf_written: Boolean flag whether a PDF file has been written
         """
         logging.debug('Callback: Processing finished')
 
         self.img_processed = img_processed
         self.img_cnt = img_cnt
-        self.log(self.i18n.translate('GUI.PHASE.CONVERSION.LOG.DONE_PROCESSING.{}'.format('SINGULAR' if img_processed == 1 else 'PLURAL')).format(img_processed, img_cnt))
+        self.pdf_written = pdf_written
+        self.log(self.i18n.translate('GUI.PHASE.CONVERSION.LOG.DONE_PROCESSING.{}.{}'
+                                     .format('SINGULAR' if img_processed == 1 else 'PLURAL', 'PDF' if pdf_written else 'NO_PDF'))
+                                     .format(img_processed, img_cnt))
 
         self._reset_enabled()
 
@@ -343,3 +348,10 @@ class PhaseConversionWidget(QWidget):
         :return: The number of all images
         """
         return self.img_cnt
+
+    def isPdfWritten(self):
+        """Returns whether a PDF file has been written
+
+        :return: Boolean flag whether a PDF file has been written
+        """
+        return self.pdf_written

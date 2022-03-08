@@ -27,7 +27,8 @@ class WorkerSignals(QObject):
         `object` data returned from processing, anything
         - [0] Number of scaled images
         - [1] Number of images to be processed
+        - [2] Boolean flag whether a PDF file has been created
     """
     scalingerror = pyqtSignal(object)
     scalingresult = pyqtSignal(object, object)
-    scalingfinished = pyqtSignal(object, object)
+    scalingfinished = pyqtSignal(object, object, object)

@@ -29,6 +29,8 @@ class ScalerThread(QRunnable):
         :param width: The width
         :param height: The height
         :param createpdf: Flag whether to create a PDF file of all images
+        :param scaled_image_suffix: Scaled image suffix
+        :param pdf_name: The PDF name
         """
         super().__init__()
 
@@ -63,8 +65,7 @@ class ScalerThread(QRunnable):
                                           width=self.width,
                                           height=self.height)
                     except Exception as e:
-                        logging.debug(
-                            'Exception while scaling: {}'.format(e))
+                        logging.debug('Exception while scaling: {}'.format(e))
 
                     processed_img_cnt += 1
 
@@ -78,19 +79,28 @@ class ScalerThread(QRunnable):
                             else:
                                 list_img.append(Image.open(scaled_img_name))
                     except Exception as e:
-                        logging.debug(
-                            'Exception while converting rgba to rgb: {}'.format(e))
+                        logging.debug('Exception while converting rgba to rgb: {}'.format(e))
 
                     self.signals.scalingresult.emit(processed_img_cnt, len(self.images))
         except Exception as ex:
             logging.exception('Failed to process images.')
             self.signals.scalingerror.emit(ex)
         finally:
+            pdf_written = False
             if self.createpdf and list_img:
-                pdf_name = self.outdir + '/' + self.pdf_name + '.pdf'
-                logging.debug('Generating PDF file "{}"'.format(pdf_name))
-                list_img[0].save(pdf_name, 'PDF', resolution=100.0, save_all=True, append_images=list_img[1:])
-            self.signals.scalingfinished.emit(processed_img_cnt, len(self.images))
+                pdf_written = True
+                pdf_name = '{}/{}.pdf'.format(self.outdir, self.pdf_name)
+                if os.path.exists(pdf_name):
+                    try:
+                        logging.debug('File "" exists, deleting'.format(pdf_name))
+                        os.remove(pdf_name)
+                    except Exception as e:
+                        logging.debug('Exception while deleting existing PDF file: {}'.format(e))
+                        pdf_written = False
+                if pdf_written:
+                    logging.debug('Generating PDF file "{}"'.format(pdf_name))
+                    list_img[0].save(pdf_name, 'PDF', resolution=100.0, save_all=True, append_images=list_img[1:])
+            self.signals.scalingfinished.emit(processed_img_cnt, len(self.images), pdf_written)
 
     def _get_scaled_img_path(self, path_img):
         """returns the image name of the scaled image
@@ -103,9 +113,10 @@ class ScalerThread(QRunnable):
                 lindex = fname.rfind('.')
                 newname = fname[:lindex] + self.scaled_image_suffix
                 suffix = fname[lindex:]
-                logging.debug('Output image path: "{}"'.format(self.outdir + "/" + newname + suffix))
+                out_path = '{}/{}{}'.format(self.outdir, newname, suffix)
+                logging.debug('Output image path: "{}"'.format(out_path))
 
-                return self.outdir + "/" + newname + suffix
+                return out_path
         except Exception as e:
             logging.error('Error getting path for image "{}": {}'.format(path_img, e))
             return None

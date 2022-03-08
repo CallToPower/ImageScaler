@@ -198,10 +198,11 @@ class MainWindow(QMainWindow):
 
         self.nr_converted_images = self.phase_conversion_widget.get_nr_converted_images()
         self.nr_all_images = self.phase_conversion_widget.get_nr_all_images()
+        self.config['CREATE_PDF'] = self.phase_conversion_widget.isPdfWritten()
         self.phase_done_widget.set_config(
             self.nr_converted_images,
             self.nr_all_images,
-            self.config['CREATE_PDF'] if 'CREATE_PDF' in self.config else True)
+            self.config['CREATE_PDF'])
         self.phase_done_widget.init_ui()
         self.setCentralWidget(self.phase_done_widget)
 
