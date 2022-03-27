@@ -112,8 +112,8 @@ class MainWindow(QMainWindow):
     def _center(self):
         """Centers the window on the screen"""
         screen = QDesktopWidget().screenGeometry()
-        self.move((screen.width() - self.geometry().width()) / 2,
-                  (screen.height() - self.geometry().height()) / 2)
+        self.move(int((screen.width() - self.geometry().width()) / 2),
+                  int((screen.height() - self.geometry().height()) / 2))
 
     def _set_state(self, state):
         """Sets the state
