@@ -243,7 +243,7 @@ class PhaseConversionWidget(QWidget):
         logging.debug('Callback: Processing error')
 
         logging.error('Failed to process: "{}"'.format(ex))
-        self.log('GUI.PHASE.CONVERSION.LOG.ERROR_PROCESSING')
+        self.log(self.i18n.translate('GUI.PHASE.CONVERSION.LOG.ERROR_PROCESSING'))
 
         self._reset_enabled()
 
