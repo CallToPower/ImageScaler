@@ -29,6 +29,7 @@ class ListWidget(QWidget):
         :param parent: The parent component
         """
         super(ListWidget, self).__init__(parent)
+
         self.widget_list = widget_list
         self.id = str(uuid.uuid4())
         self.path_img = path_img

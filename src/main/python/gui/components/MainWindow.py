@@ -241,20 +241,28 @@ class MainWindow(QMainWindow):
                                         image_cache=self.image_cache)
         self.phase_input_widget = PhaseInputWidget(
                                         log=self.show_message,
+                                        cb_cancel=self.cancel,
                                         cb_next_phase=self.next_phase,
                                         i18n=self.i18n)
         self.phase_output_widget = PhaseOutputWidget(
                                         log=self.show_message,
+                                        cb_cancel=self.cancel,
                                         cb_next_phase=self.next_phase,
                                         i18n=self.i18n)
         self.phase_conversion_widget = PhaseConversionWidget(
                                         log=self.show_message,
+                                        cb_cancel=self.cancel,
                                         cb_next_phase=self.next_phase,
                                         i18n=self.i18n)
         self.phase_done_widget = PhaseDoneWidget(
                                         log=self.show_message,
                                         cb_next_phase=self.next_phase,
                                         i18n=self.i18n)
+
+    def cancel(self):
+        """Cancels and resets"""
+        self._reset_phases()
+        self._phase_welcome()
 
     def next_phase(self):
         """Goes to the next phase"""

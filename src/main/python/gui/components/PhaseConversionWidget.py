@@ -22,11 +22,12 @@ from lib.AppConfig import app_conf_get
 class PhaseConversionWidget(QWidget):
     """Phase Conversion widget GUI"""
 
-    def __init__(self, i18n, log, cb_next_phase):
+    def __init__(self, i18n, log, cb_cancel, cb_next_phase):
         """Initializes the widget
 
         :param i18n: The I18n
         :param log: The (end user) message log
+        :param cb_cancel: Cancel callback
         :param cb_next_phase: Next phase callback
         """
         super().__init__()
@@ -35,6 +36,7 @@ class PhaseConversionWidget(QWidget):
 
         self.i18n = i18n
         self.log = log
+        self.cb_cancel = cb_cancel
         self.cb_next_phase = cb_next_phase
 
         self.components = []
@@ -137,6 +139,10 @@ class PhaseConversionWidget(QWidget):
 
         self.label_spacer = QLabel('')
 
+        self.button_cancel = QPushButton(self.i18n.translate('GUI.PHASE.CANCEL'))
+        self.button_cancel.clicked[bool].connect(self._cancel)
+        self.components.append(self.button_cancel)
+
         self.button_start = QPushButton(self.i18n.translate('GUI.PHASE.CONVERSION.BUTTON.PROCESS'))
         self.button_start.clicked[bool].connect(self._start_processing)
         self.components.append(self.button_start)
@@ -189,7 +195,8 @@ class PhaseConversionWidget(QWidget):
         self.grid.addWidget(self.progressbar, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
-        self.grid.addWidget(self.button_start, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 2)
+        self.grid.addWidget(self.button_start, curr_gridid, 2, 1, 8)
 
         self.setLayout(self.grid)
         self._reset_enabled()
@@ -246,6 +253,14 @@ class PhaseConversionWidget(QWidget):
         self.log(self.i18n.translate('GUI.PHASE.CONVERSION.LOG.ERROR_PROCESSING'))
 
         self._reset_enabled()
+
+    def _cancel(self):
+        """Cancels"""
+        logging.debug('Cancel')
+
+        if self.cb_cancel:
+            self._disable()
+            self.cb_cancel()
 
     def _callback_processing_finished(self, img_processed, img_cnt, pdf_written):
         """The processing callback, on finished

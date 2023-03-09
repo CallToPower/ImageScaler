@@ -21,11 +21,12 @@ from lib.AppConfig import app_conf_get
 class PhaseOutputWidget(QWidget):
     """Phase Output widget GUI"""
 
-    def __init__(self, i18n, log, cb_next_phase):
+    def __init__(self, i18n, log, cb_cancel, cb_next_phase):
         """Initializes the widget
 
         :param i18n: The I18n
         :param log: The (end user) message log
+        :param cb_cancel: Cancel callback
         :param cb_next_phase: Next phase callback
         """
         super().__init__()
@@ -34,6 +35,7 @@ class PhaseOutputWidget(QWidget):
 
         self.i18n = i18n
         self.log = log
+        self.cb_cancel = cb_cancel
         self.cb_next_phase = cb_next_phase
 
         self.edit_image_size_width = None
@@ -136,6 +138,10 @@ class PhaseOutputWidget(QWidget):
 
         self.label_spacer = QLabel('')
 
+        self.button_cancel = QPushButton(self.i18n.translate('GUI.PHASE.CANCEL'))
+        self.button_cancel.clicked[bool].connect(self._cancel)
+        self.components.append(self.button_cancel)
+
         self.button_next_phase = QPushButton(self.i18n.translate('GUI.PHASE.OUTPUT.NEXT_PHASE'))
         self.button_next_phase.clicked[bool].connect(self._next_phase)
         self.components.append(self.button_next_phase)
@@ -182,7 +188,8 @@ class PhaseOutputWidget(QWidget):
         self.grid.addWidget(self.label_spacer, curr_gridid, 0, 7, 10)
 
         curr_gridid += 8
-        self.grid.addWidget(self.button_next_phase, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 2)
+        self.grid.addWidget(self.button_next_phase, curr_gridid, 2, 1, 8)
 
         self.setLayout(self.grid)
         self._reset_enabled()
@@ -232,6 +239,14 @@ class PhaseOutputWidget(QWidget):
         else:
             self.log(self.i18n.translate('GUI.PHASE.OUTPUT.LOG.SELECT_OUTPUT_DIR_CANCEL'))
             logging.debug('Cancelled selecting output directory')
+
+    def _cancel(self):
+        """Cancels"""
+        logging.debug('Cancel')
+
+        if self.cb_cancel:
+            self._disable()
+            self.cb_cancel()
 
     def _next_phase(self):
         """Netx phase"""
