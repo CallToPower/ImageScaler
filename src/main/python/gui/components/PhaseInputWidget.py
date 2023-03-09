@@ -158,7 +158,13 @@ class PhaseInputWidget(QWidget):
         self.is_enabled = True
 
     def _filter_image_files(self, event):
-        return [u.toLocalFile() for u in event.mimeData().urls() if filetype.is_image(u.toLocalFile())]
+        filetypes = ['image/jpeg', 'image/png']
+        lst = []
+        for u in event.mimeData().urls():
+            t = filetype.guess(u.toLocalFile())
+            if t and t.mime in filetypes:
+                lst.append(u.toLocalFile())
+        return lst
 
     def dragEnterEvent(self, event):
         if self._filter_image_files(event):
@@ -204,11 +210,11 @@ class PhaseInputWidget(QWidget):
         filter_mask = 'Image Files (*.jpeg *.jpg *.png)'
         filenames = QFileDialog.getOpenFileNames(self, self.i18n.translate('GUI.PHASE.INPUT.DIALOG.SELECT'), './', filter_mask)[0]
         if filenames:
-            self.log(
-                self.i18n.translate('GUI.PHASE.INPUT.LOG.SELECT_IMAGES_SUCCESS').format(len(filenames)))
+            self.log(self.i18n.translate('GUI.PHASE.INPUT.LOG.SELECT_IMAGES_SUCCESS').format(len(filenames)))
             for fname in filenames:
-                logging.debug('Selected file name: "{}"'.format(fname))
-                self._add_to_list(fname)
+                if filetype.is_image(fname):
+                    logging.debug('Selected file name: "{}"'.format(fname))
+                    self._add_to_list(fname)
         else:
             self.log(self.i18n.translate('GUI.PHASE.INPUT.LOG.SELECT_IMAGES_CANCEL').format(0))
             logging.debug('Cancelled selecting files')
