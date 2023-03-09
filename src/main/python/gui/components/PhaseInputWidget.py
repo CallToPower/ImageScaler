@@ -15,7 +15,7 @@ import filetype
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton, QListWidget, QListWidgetItem, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QAbstractItemView, QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton, QListWidget, QListWidgetItem, QFileDialog, QMessageBox
 
 from gui.components.ListWidget import ListWidget
 
@@ -95,6 +95,8 @@ class PhaseInputWidget(QWidget):
         self.label_selected_images.setAlignment(Qt.AlignLeft)
 
         self.widget_list = QListWidget()
+        self.widget_list.setDragDropMode(QAbstractItemView.InternalMove)
+        self.widget_list.model().rowsMoved.connect(self._item_moved)
         self.widget_list.current_images = []
 
         self.button_cancel = QPushButton(self.i18n.translate('GUI.PHASE.CANCEL'))
@@ -135,6 +137,16 @@ class PhaseInputWidget(QWidget):
 
         self.setLayout(self.grid)
         self._reset_enabled()
+
+    def _item_moved(self, _i1, i_from, _i2, _i3, i_to):
+        if len(self.widget_list.current_images) > 1:
+            _imgs = self.widget_list.current_images
+            elem = _imgs[i_from]
+            _imgs.insert(i_to, elem)
+            for i, el in enumerate(_imgs):
+                if i != i_to and el == elem:
+                    _imgs.pop(i)
+                    return
 
     def reset(self):
         """Resets the widget"""
