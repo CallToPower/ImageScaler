@@ -11,6 +11,8 @@
 import logging
 import os
 
+import filetype
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton, QListWidget, QListWidgetItem, QFileDialog, QMessageBox
@@ -41,6 +43,8 @@ class PhaseInputWidget(QWidget):
         self.widget_list = None
         self.components = []
 
+        self.setAcceptDrops(True)
+
     def init_ui(self):
         """Initiates application UI"""
         logging.debug('Initializing PhaseInputWidget GUI')
@@ -52,6 +56,10 @@ class PhaseInputWidget(QWidget):
         self.font_label_header_small = QFont()
         self.font_label_header_small.setBold(False)
         self.font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
+
+        self.font_label_info_small = QFont()
+        self.font_label_info_small.setBold(False)
+        self.font_label_info_small.setPointSize(app_conf_get('label.info.small.font.size', 10))
 
         self.line_css = 'background-color: #c0c0c0;'
         self.max_img_size_digits = 5
@@ -75,6 +83,10 @@ class PhaseInputWidget(QWidget):
         self.button_select_images = QPushButton(self.i18n.translate('GUI.PHASE.INPUT.SELECT_IMAGES'))
         self.button_select_images.clicked[bool].connect(self._select_images)
         self.components.append(self.button_select_images)
+
+        self.label_selected_images_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.HINT'))
+        self.label_selected_images_hint.setFont(self.font_label_info_small)
+        self.label_selected_images_hint.setAlignment(Qt.AlignCenter)
 
         self.label_selected_images = QLabel(self.i18n.translate('GUI.PHASE.INPUT.SELECTED_IMAGES'))
         self.label_selected_images.setFont(self.font_label_header_small)
@@ -101,6 +113,9 @@ class PhaseInputWidget(QWidget):
 
         curr_gridid += 1
         self.grid.addWidget(self.button_select_images, curr_gridid, 0, 1, 10)
+
+        curr_gridid += 1
+        self.grid.addWidget(self.label_selected_images_hint, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
         self.grid.addWidget(self.label_selected_images, curr_gridid, 0, 1, 10)
@@ -141,6 +156,24 @@ class PhaseInputWidget(QWidget):
         for comp in self.components:
             comp.setEnabled(True)
         self.is_enabled = True
+
+    def _filter_image_files(self, event):
+        return [u.toLocalFile() for u in event.mimeData().urls() if filetype.is_image(u.toLocalFile())]
+
+    def dragEnterEvent(self, event):
+        if self._filter_image_files(event):
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        files = self._filter_image_files(event)
+        for file in files:
+            self._add_to_list(file)
+        if files:
+            event.accept()
+        else:
+            event.ignore()
 
     def _add_to_list(self, path_img):
         """Adds an item to the list

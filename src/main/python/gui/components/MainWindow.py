@@ -173,6 +173,7 @@ class MainWindow(QMainWindow):
         self.show_message(self.i18n.translate('GUI.MAIN.LOG.PHASE.OUTPUT'))
 
         self.images = self.phase_input_widget.get_selected_images()
+        self.phase_output_widget.set_images(self.images)
         self.phase_output_widget.init_ui()
         self.setCentralWidget(self.phase_output_widget)
 

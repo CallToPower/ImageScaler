@@ -16,9 +16,9 @@ import os
 
 _app_config = {
     'author': 'Denis Meyer',
-    'version': '2.0.0',
-    'build': '2022-03-27-1',
-    'copyright': '© 2019-2022 Denis Meyer',
+    'version': '2.1.0',
+    'build': '2023-03-09-1',
+    'copyright': '© 2019-2023 Denis Meyer',
     'window.width': 800,
     'window.height': 500,
     'about.logo.scaled.width': 280,
@@ -28,7 +28,7 @@ _app_config = {
     'label.info.font.size': 12,
     'label.info.small.font.size': 10,
     'logging.log_to_file': False,
-    'logging.loglevel': logging.DEBUG,
+    'logging.loglevel': logging.INFO,
     'logging.format': '[%(asctime)s] [%(levelname)-5s] [%(module)-20s:%(lineno)-4s] %(message)s',
     'logging.datefmt': '%d-%m-%Y %H:%M:%S',
     'logging.logfile': os.path.join(os.getcwd(), 'logs', 'py-imgscaler.application-{}.log'.format(time.strftime('%d-%m-%Y-%H-%M-%S')))

@@ -9,6 +9,7 @@
 """Phase Output widget"""
 
 import logging
+import os
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QIntValidator
@@ -186,6 +187,10 @@ class PhaseOutputWidget(QWidget):
         self.setLayout(self.grid)
         self._reset_enabled()
 
+    def set_images(self, images):
+        if images:
+            self.output_dir = os.path.dirname(images[0])
+
     def reset(self):
         """Resets the widget"""
         logging.debug('Resetting widget')
@@ -218,10 +223,9 @@ class PhaseOutputWidget(QWidget):
         """Selects an output directory"""
         logging.debug('Selecting output directory')
         self.log(self.i18n.translate('GUI.PHASE.OUTPUT.LOG.SELECT_OUTPUT_DIR'))
-        dirname = QFileDialog.getExistingDirectory(self, "Select Directory")
+        dirname = QFileDialog.getExistingDirectory(self, "Select Directory", self.output_dir)
         if dirname:
-            self.log(
-                self.i18n.translate('GUI.PHASE.OUTPUT.LOG.SELECT_OUTPUT_DIR_SUCCESS').format(dirname))
+            self.log(self.i18n.translate('GUI.PHASE.OUTPUT.LOG.SELECT_OUTPUT_DIR_SUCCESS').format(dirname))
             logging.debug('Selected output directory: "{}"'.format(dirname))
             self.output_dir = dirname
             self.edit_output_dir.setText(self.output_dir)

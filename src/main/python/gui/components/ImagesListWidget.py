@@ -11,5 +11,6 @@
 from PyQt5.QtGui import QListWidget
 
 class ImagesList(QListWidget):
-   def Clicked(self,item):
-      QMessageBox.information(self, "ListWidget", "You clicked: "+item.text())
+
+    def Clicked(self,item):
+        QMessageBox.information(self, "ListWidget", "You clicked: "+item.text())
