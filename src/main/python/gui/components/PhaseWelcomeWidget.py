@@ -79,7 +79,7 @@ class PhaseWelcomeWidget(QWidget):
         # Layout
 
         self.grid = QGridLayout()
-        self.grid.setSpacing(10)
+        self.grid.setSpacing(20)
 
         # self.grid.addWidget(widget, row, column, rowspan, columnspan)
 

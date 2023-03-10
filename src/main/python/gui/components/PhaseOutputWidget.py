@@ -91,6 +91,14 @@ class PhaseOutputWidget(QWidget):
         self.label_image_size_width.setFont(self.font_label_info)
         self.label_image_size_width.setAlignment(Qt.AlignLeft)
 
+        self.label_image_size_px = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PX'))
+        self.label_image_size_px.setFont(self.font_label_info)
+        self.label_image_size_px.setAlignment(Qt.AlignLeft)
+
+        self.label_image_size_px2 = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PX'))
+        self.label_image_size_px2.setFont(self.font_label_info)
+        self.label_image_size_px2.setAlignment(Qt.AlignLeft)
+
         self.label_image_size_times = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_TIMES'))
         self.label_image_size_times.setFont(self.font_label_info)
         self.label_image_size_times.setAlignment(Qt.AlignCenter)
@@ -148,47 +156,51 @@ class PhaseOutputWidget(QWidget):
         # Layout
 
         self.grid = QGridLayout()
-        self.grid.setSpacing(10)
+        self.grid.setSpacing(20)
 
         # self.grid.addWidget(widget, row, column, rowspan, columnspan)
 
-        curr_gridid = 1
-        self.grid.addWidget(self.line_1, curr_gridid, 0, 1, 4)
-        self.grid.addWidget(self.label_header, curr_gridid, 4, 1, 2)
-        self.grid.addWidget(self.line_2, curr_gridid, 6, 1, 4)
+        curr_gridid = 0
+        self.grid.addWidget(self.line_1, curr_gridid, 0, 1, 1)
+        self.grid.addWidget(self.label_header, curr_gridid, 1, 1, 3)
+        self.grid.addWidget(self.line_2, curr_gridid, 4, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_image_size, curr_gridid, 0, 1, 1)
+        self.grid.addWidget(self.label_image_size, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.edit_image_size_width, curr_gridid, 0, 1, 4)
-        self.grid.addWidget(self.label_image_size_width, curr_gridid, 3, 1, 1)
-        self.grid.addWidget(self.label_image_size_times, curr_gridid, 4, 1, 1)
-        self.grid.addWidget(self.edit_image_size_height, curr_gridid, 5, 1, 4)
-        self.grid.addWidget(self.label_image_size_height, curr_gridid, 8, 1, 1)
+        self.grid.addWidget(self.label_image_size_width, curr_gridid, 0, 1, 3)
+        self.grid.addWidget(self.label_image_size_height, curr_gridid, 3, 1, 2)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_image_size_info, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.edit_image_size_width, curr_gridid, 0, 1, 1)
+        self.grid.addWidget(self.label_image_size_px, curr_gridid, 1, 1, 1)
+        self.grid.addWidget(self.label_image_size_times, curr_gridid, 2, 1, 1)
+        self.grid.addWidget(self.edit_image_size_height, curr_gridid, 3, 1, 1)
+        self.grid.addWidget(self.label_image_size_px2, curr_gridid, 4, 1, 1)
+
+        curr_gridid += 1
+        self.grid.addWidget(self.label_image_size_info, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
         self.grid.addWidget(self.label_output_dir, curr_gridid, 0, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.edit_output_dir, curr_gridid, 0, 1, 7)
-        self.grid.addWidget(self.button_output_dir, curr_gridid, 7, 1, 3)
+        self.grid.addWidget(self.edit_output_dir, curr_gridid, 0, 1, 4)
+        self.grid.addWidget(self.button_output_dir, curr_gridid, 4, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_pdf, curr_gridid, 0, 1, 1)
+        self.grid.addWidget(self.label_pdf, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.checkbox_create_pdf, curr_gridid, 0, 1, 9)
+        self.grid.addWidget(self.checkbox_create_pdf, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_spacer, curr_gridid, 0, 7, 10)
+        self.grid.addWidget(self.label_spacer, curr_gridid, 0, 7, 5)
 
         curr_gridid += 8
-        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 2)
-        self.grid.addWidget(self.button_next_phase, curr_gridid, 2, 1, 8)
+        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 1)
+        self.grid.addWidget(self.button_next_phase, curr_gridid, 1, 1, 4)
 
         self.setLayout(self.grid)
         self._reset_enabled()

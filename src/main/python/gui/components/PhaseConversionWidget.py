@@ -150,11 +150,11 @@ class PhaseConversionWidget(QWidget):
         # Layout
 
         self.grid = QGridLayout()
-        self.grid.setSpacing(10)
+        self.grid.setSpacing(20)
 
         # self.grid.addWidget(widget, row, column, rowspan, columnspan)
         
-        curr_gridid = 1
+        curr_gridid = 0
         self.grid.addWidget(self.line_1, curr_gridid, 0, 1, 4)
         self.grid.addWidget(self.label_header, curr_gridid, 4, 1, 2)
         self.grid.addWidget(self.line_2, curr_gridid, 6, 1, 4)
@@ -190,11 +190,11 @@ class PhaseConversionWidget(QWidget):
         self.grid.addWidget(self.label_spacer, curr_gridid, 0, 7, 10)
 
         curr_gridid += 8
-        self.grid.addWidget(self.progressbar, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.progressbar, curr_gridid, 1, 1, 9)
 
         curr_gridid += 1
-        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 2)
-        self.grid.addWidget(self.button_start, curr_gridid, 2, 1, 8)
+        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 4)
+        self.grid.addWidget(self.button_start, curr_gridid, 4, 1, 6)
 
         self.setLayout(self.grid)
         self._reset_enabled()

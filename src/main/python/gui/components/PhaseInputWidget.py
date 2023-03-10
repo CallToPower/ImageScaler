@@ -112,20 +112,18 @@ class PhaseInputWidget(QWidget):
         # Layout
 
         self.grid = QGridLayout()
-        self.grid.setSpacing(10)
+        self.grid.setSpacing(20)
 
         # self.grid.addWidget(widget, row, column, rowspan, columnspan)
 
-        curr_gridid = 1
+        curr_gridid = 0
         self.grid.addWidget(self.line_select_images_1, curr_gridid, 0, 1, 4)
         self.grid.addWidget(self.label_header, curr_gridid, 4, 1, 2)
         self.grid.addWidget(self.line_select_images_2, curr_gridid, 6, 1, 4)
 
         curr_gridid += 1
-        self.grid.addWidget(self.button_select_images, curr_gridid, 0, 1, 10)
-
-        curr_gridid += 1
-        self.grid.addWidget(self.label_dragndrop_hint, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.button_select_images, curr_gridid, 0, 1, 5)
+        self.grid.addWidget(self.label_dragndrop_hint, curr_gridid, 5, 1, 5)
 
         curr_gridid += 1
         self.grid.addWidget(self.label_selected_images, curr_gridid, 0, 1, 10)
@@ -137,8 +135,8 @@ class PhaseInputWidget(QWidget):
         self.grid.addWidget(self.widget_list, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
-        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 2)
-        self.grid.addWidget(self.button_next_phase, curr_gridid, 2, 1, 8)
+        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 4)
+        self.grid.addWidget(self.button_next_phase, curr_gridid, 4, 1, 6)
 
         self.setLayout(self.grid)
         self._reset_enabled()

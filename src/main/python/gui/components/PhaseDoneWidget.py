@@ -52,11 +52,23 @@ class PhaseDoneWidget(QWidget):
         self.font_label_info.setBold(False)
         self.font_label_info.setPointSize(app_conf_get('label.info.font.size', 16))
 
+        self.line_css = 'background-color: #c0c0c0;'
+
         # Components
 
         self.label_done_header = QLabel(self.i18n.translate('GUI.PHASE.DONE.HEADER'))
         self.label_done_header.setFont(self.font_label_header)
         self.label_done_header.setAlignment(Qt.AlignLeft)
+
+        self.line_1 = QWidget()
+        self.line_1.setFixedHeight(1)
+        self.line_1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.line_1.setStyleSheet(self.line_css)
+
+        self.line_2 = QWidget()
+        self.line_2.setFixedHeight(1)
+        self.line_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.line_2.setStyleSheet(self.line_css)
 
         self.label_done_text = QLabel(self.i18n.translate('GUI.PHASE.DONE.TEXT.{}'.format('SINGULAR' if self.nr_images_converted == 1 else 'PLURAL')).format(self.nr_images_converted, self.nr_images_all))
 
@@ -73,27 +85,29 @@ class PhaseDoneWidget(QWidget):
         # Layout
 
         self.grid = QGridLayout()
-        self.grid.setSpacing(10)
+        self.grid.setSpacing(20)
 
         # self.grid.addWidget(widget, row, column, rowspan, columnspan)
 
         curr_gridid = 0
-        self.grid.addWidget(self.label_done_header, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.line_1, curr_gridid, 0, 1, 1)
+        self.grid.addWidget(self.label_done_header, curr_gridid, 1, 1, 3)
+        self.grid.addWidget(self.line_2, curr_gridid, 4, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_done_text, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.label_done_text, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
         if self.pdf_created:
-            self.grid.addWidget(self.label_done_text_pdf, curr_gridid, 0, 1, 10)
+            self.grid.addWidget(self.label_done_text_pdf, curr_gridid, 0, 1, 5)
         else:
-            self.grid.addWidget(self.label_done_text_no_pdf, curr_gridid, 0, 1, 10)
+            self.grid.addWidget(self.label_done_text_no_pdf, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_spacer, curr_gridid, 0, 7, 10)
+        self.grid.addWidget(self.label_spacer, curr_gridid, 0, 7, 5)
 
         curr_gridid += 8
-        self.grid.addWidget(self.button_finish, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.button_finish, curr_gridid, 0, 1, 5)
 
         self.setLayout(self.grid)
         self._reset_enabled()

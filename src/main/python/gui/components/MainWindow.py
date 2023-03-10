@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
 
         self.next_phase()
 
-        self.resize(app_conf_get('window.width', 800), app_conf_get('window.height', 700))
+        self.resize(app_conf_get('window.width', 800), app_conf_get('window.height', 600))
 
         self._center()
 
