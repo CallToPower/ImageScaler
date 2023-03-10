@@ -156,6 +156,9 @@ class MainWindow(QMainWindow):
 
         if not self._is_in_state(GUIState.PHASE_WELCOME):
             msg_box = QMessageBox()
+            logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')
+            if logo is not None:
+                msg_box.setWindowIcon(QIcon(logo))
             msg_box.setIcon(QMessageBox.Warning)
             msg_box.setText(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TEXT'))
             msg_box.setWindowTitle(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TITLE'))
@@ -272,31 +275,52 @@ class MainWindow(QMainWindow):
         self.phase_welcome_widget = PhaseWelcomeWidget(
                                         log=self.show_message,
                                         cb_next_phase=self.next_phase,
-                                        i18n=self.i18n)
+                                        i18n=self.i18n,
+                                        image_cache=self.image_cache)
         self.phase_input_widget = PhaseInputWidget(
                                         log=self.show_message,
                                         cb_cancel=self.cancel,
                                         cb_next_phase=self.next_phase,
-                                        i18n=self.i18n)
+                                        i18n=self.i18n,
+                                        image_cache=self.image_cache)
         self.phase_output_widget = PhaseOutputWidget(
                                         log=self.show_message,
                                         cb_cancel=self.cancel,
                                         cb_next_phase=self.next_phase,
-                                        i18n=self.i18n)
+                                        i18n=self.i18n,
+                                        image_cache=self.image_cache)
         self.phase_conversion_widget = PhaseConversionWidget(
                                         log=self.show_message,
                                         cb_cancel=self.cancel,
                                         cb_next_phase=self.next_phase,
-                                        i18n=self.i18n)
+                                        i18n=self.i18n,
+                                        image_cache=self.image_cache)
         self.phase_done_widget = PhaseDoneWidget(
                                         log=self.show_message,
                                         cb_next_phase=self.next_phase,
-                                        i18n=self.i18n)
+                                        i18n=self.i18n,
+                                        image_cache=self.image_cache)
 
     def cancel(self):
         """Cancels and resets"""
-        self._reset_phases()
-        self._phase_welcome()
+        msg_box = QMessageBox()
+        logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')
+        if logo is not None:
+            msg_box.setWindowIcon(QIcon(logo))
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setText(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE.CANCEL.WARN.TEXT'))
+        msg_box.setWindowTitle(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE.CANCEL.WARN.TITLE'))
+        msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+        msg_box_return = msg_box.exec()
+
+        if msg_box_return == QMessageBox.Ok:
+            self._reset_phases()
+            self._phase_welcome()
+
+            return True
+
+        return False
 
     def next_phase(self):
         """Goes to the next phase"""

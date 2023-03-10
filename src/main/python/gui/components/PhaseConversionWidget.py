@@ -11,7 +11,7 @@
 import logging
 
 from PyQt5.QtCore import Qt, QThreadPool
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton, QMessageBox, QProgressBar
 
 from gui.threads.ScalerThread import ScalerThread
@@ -20,9 +20,10 @@ from lib.AppConfig import app_conf_get
 class PhaseConversionWidget(QWidget):
     """Phase Conversion widget GUI"""
 
-    def __init__(self, i18n, log, cb_cancel, cb_next_phase):
+    def __init__(self, image_cache, i18n, log, cb_cancel, cb_next_phase):
         """Initializes the widget
 
+        :param image_cache: The image cache
         :param i18n: The I18n
         :param log: The (end user) message log
         :param cb_cancel: Cancel callback
@@ -32,6 +33,7 @@ class PhaseConversionWidget(QWidget):
 
         logging.debug('Initializing PhaseConversionWidget')
 
+        self.image_cache = image_cache
         self.i18n = i18n
         self.log = log
         self.cb_cancel = cb_cancel
@@ -258,7 +260,8 @@ class PhaseConversionWidget(QWidget):
 
         if self.cb_cancel:
             self._disable()
-            self.cb_cancel()
+            if not self.cb_cancel():
+                self._reset_enabled()
 
     def _callback_processing_finished(self, img_processed, img_cnt, pdf_written):
         """The processing callback, on finished
@@ -298,6 +301,9 @@ class PhaseConversionWidget(QWidget):
                 msg += '<li>{}</li>'.format(e)
             msg += '</ul>'
             msgbox = QMessageBox()
+            logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')
+            if logo is not None:
+                msgbox.setWindowIcon(QIcon(logo))
             msgbox.setIcon(QMessageBox.Critical)
             msgbox.setText(self.i18n.translate('GUI.PHASE.CONVERSION.ERROR.START_PROCESSING'))
             msgbox.setInformativeText(msg)

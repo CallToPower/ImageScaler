@@ -11,7 +11,7 @@
 import logging
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import QDialog, QDesktopWidget, QGridLayout, QLabel
 
 from lib.AppConfig import app_conf_get
@@ -53,6 +53,10 @@ class AboutDialog(QDialog):
         """Initializes the UI"""
         logging.debug('Initializing AboutDialog defaults')
 
+        logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')
+        if logo is not None:
+            self.setWindowIcon(QIcon(logo))
+
         self.grid = QGridLayout()
         self.grid.setSpacing(10)
 
@@ -70,10 +74,10 @@ class AboutDialog(QDialog):
         self.label_build.setFont(self.font_label)
         self.label_build_val = QLabel(app_conf_get('build'))
 
-        logo = self.image_cache.get_or_load_pixmap('img.logo_app', 'logo-app.png')
-        if logo is not None:
+        logo_app = self.image_cache.get_or_load_pixmap('img.logo_app', 'logo-app.png')
+        if logo_app is not None:
             self.label_img = QLabel()
-            self.label_img.setPixmap(logo.scaled(app_conf_get('about.logo.scaled.width', 280), app_conf_get('about.logo.scaled.height', 80), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.label_img.setPixmap(logo_app.scaled(app_conf_get('about.logo.scaled.width', 280), app_conf_get('about.logo.scaled.height', 80), Qt.KeepAspectRatio, Qt.SmoothTransformation))
             curr_gridid = 1
             self.grid.addWidget(self.label_img, curr_gridid, 1, 1, 2)
 

@@ -19,9 +19,10 @@ from lib.AppConfig import app_conf_get
 class PhaseWelcomeWidget(QWidget):
     """Phase Welcome widget GUI"""
 
-    def __init__(self, i18n, log, cb_next_phase):
+    def __init__(self, image_cache, i18n, log, cb_next_phase):
         """Initializes the widget
 
+        :param image_cache: The image cache
         :param i18n: The I18n
         :param log: The (end user) message log
         :param cb_next_phase: Next phase callback
@@ -30,6 +31,7 @@ class PhaseWelcomeWidget(QWidget):
 
         logging.debug('Initializing PhaseWelcomeWidget')
 
+        self.image_cache = image_cache
         self.i18n = i18n
         self.log = log
         self.cb_next_phase = cb_next_phase

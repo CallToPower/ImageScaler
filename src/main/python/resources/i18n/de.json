@@ -17,6 +17,8 @@
     "GUI.MAIN.MENU.ITEM.QUIT": "Beenden",
     "GUI.MAIN.MENU.LANGUAGE": "Sprache",
     "GUI.MAIN.WINDOW.TITLE": "ImageScaler",
+    "GUI.MAIN.MENU.LANGUAGE.CANCEL.WARN.TITLE": "Abbrechen",
+    "GUI.MAIN.MENU.LANGUAGE.CANCEL.WARN.TEXT": "Bei Abbruch wird der aktuelle Fortschritt zurückgesetzt. Fortfahren?",
     "GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TITLE": "Sprache wechseln",
     "GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TEXT": "Um die Sprache zu wechseln, wir der aktuelle Fortschritt zurückgesetzt. Fortfahren?",
     "GUI.PHASE.CANCEL": "Abbrechen",

@@ -12,7 +12,7 @@ import logging
 import os
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QIntValidator
+from PyQt5.QtGui import QFont, QIntValidator, QIcon
 from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QCheckBox, QLineEdit, QPushButton, QFileDialog, QMessageBox
 
 from lib.AppConfig import app_conf_get
@@ -20,9 +20,10 @@ from lib.AppConfig import app_conf_get
 class PhaseOutputWidget(QWidget):
     """Phase Output widget GUI"""
 
-    def __init__(self, i18n, log, cb_cancel, cb_next_phase):
+    def __init__(self, image_cache, i18n, log, cb_cancel, cb_next_phase):
         """Initializes the widget
 
+        :param image_cache: The image cache
         :param i18n: The I18n
         :param log: The (end user) message log
         :param cb_cancel: Cancel callback
@@ -32,6 +33,7 @@ class PhaseOutputWidget(QWidget):
 
         logging.debug('Initializing PhaseOutputWidget')
 
+        self.image_cache = image_cache
         self.i18n = i18n
         self.log = log
         self.cb_cancel = cb_cancel
@@ -257,7 +259,8 @@ class PhaseOutputWidget(QWidget):
 
         if self.cb_cancel:
             self._disable()
-            self.cb_cancel()
+            if not self.cb_cancel():
+                self._reset_enabled()
 
     def _next_phase(self):
         """Netx phase"""
@@ -275,6 +278,9 @@ class PhaseOutputWidget(QWidget):
                 msg += '<li>{}</li>'.format(e)
             msg += '</ul>'
             msgbox = QMessageBox()
+            logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')
+            if logo is not None:
+                msgbox.setWindowIcon(QIcon(logo))
             msgbox.setIcon(QMessageBox.Critical)
             msgbox.setText(self.i18n.translate('GUI.PHASE.OUTPUT.ERROR.NEXT_PHASE'))
             msgbox.setInformativeText(msg)

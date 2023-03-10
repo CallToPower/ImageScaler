@@ -17,6 +17,8 @@
     "GUI.MAIN.MENU.ITEM.QUIT": "Quit",
     "GUI.MAIN.MENU.LANGUAGE": "Language",
     "GUI.MAIN.WINDOW.TITLE": "ImageScaler",
+    "GUI.MAIN.MENU.LANGUAGE.CANCEL.WARN.TITLE": "Cancel",
+    "GUI.MAIN.MENU.LANGUAGE.CANCEL.WARN.TEXT": "Cancelling resets the current process. Continue?",
     "GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TITLE": "Change language",
     "GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TEXT": "Changing the language resets the current process. Continue?",
     "GUI.PHASE.CANCEL": "Cancel",
