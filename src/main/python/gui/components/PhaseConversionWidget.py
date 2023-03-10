@@ -15,9 +15,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton, QMessageBox, QProgressBar
 
 from gui.threads.ScalerThread import ScalerThread
-
 from lib.AppConfig import app_conf_get
-
 
 class PhaseConversionWidget(QWidget):
     """Phase Conversion widget GUI"""

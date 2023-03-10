@@ -17,7 +17,6 @@ from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QCheckBox
 
 from lib.AppConfig import app_conf_get
 
-
 class PhaseOutputWidget(QWidget):
     """Phase Output widget GUI"""
 

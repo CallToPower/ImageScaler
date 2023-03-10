@@ -18,7 +18,6 @@ from PyQt5.QtCore import QObject, QRunnable, pyqtSlot
 
 from gui.signals.WorkerSignals import WorkerSignals
 
-
 class ScalerThread(QRunnable):
     """Image scaler thread"""
 

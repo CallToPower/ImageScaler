@@ -14,22 +14,17 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton
 
-from gui.enums.Language import Language
-
 from lib.AppConfig import app_conf_get
-
 
 class PhaseWelcomeWidget(QWidget):
     """Phase Welcome widget GUI"""
 
-    def __init__(self, i18n, log, cb_next_phase, cb_change_language, image_cache):
+    def __init__(self, i18n, log, cb_next_phase):
         """Initializes the widget
 
         :param i18n: The I18n
         :param log: The (end user) message log
         :param cb_next_phase: Next phase callback
-        :param cb_change_language: Change language callback
-        :param image_cache: The image cache
         """
         super().__init__()
 
@@ -38,8 +33,6 @@ class PhaseWelcomeWidget(QWidget):
         self.i18n = i18n
         self.log = log
         self.cb_next_phase = cb_next_phase
-        self.cb_change_language = cb_change_language
-        self.image_cache = image_cache
 
         self.components = []
 
@@ -79,20 +72,6 @@ class PhaseWelcomeWidget(QWidget):
 
         self.label_spacer = QLabel('')
 
-        self.button_lang_en = QPushButton(self.i18n.translate('GUI.PHASE.WELCOME.LANG.EN'))
-        self.button_lang_en.clicked[bool].connect(self._change_lang_en)
-        flag_en = self.image_cache.get_or_load_icon('img.flag.en', 'en.png', 'flags')
-        if flag_en is not None:
-            self.button_lang_en.setIcon(flag_en)
-        self.components.append(self.button_lang_en)
-
-        self.button_lang_de = QPushButton(self.i18n.translate('GUI.PHASE.WELCOME.LANG.DE'))
-        self.button_lang_de.clicked[bool].connect(self._change_lang_de)
-        flag_de = self.image_cache.get_or_load_icon('img.flag.de', 'de.png', 'flags')
-        if flag_de is not None:
-            self.button_lang_de.setIcon(flag_de)
-        self.components.append(self.button_lang_de)
-
         self.button_start = QPushButton(self.i18n.translate('GUI.PHASE.WELCOME.START'))
         self.button_start.clicked[bool].connect(self._start)
         self.components.append(self.button_start)
@@ -116,12 +95,6 @@ class PhaseWelcomeWidget(QWidget):
         self.grid.addWidget(self.label_spacer, curr_gridid, 0, 3, 10)
 
         curr_gridid += 3
-        if self.i18n.current_language == Language.EN:
-            self.grid.addWidget(self.button_lang_de, curr_gridid, 7, 1, 3)
-        else:
-            self.grid.addWidget(self.button_lang_en, curr_gridid, 7, 1, 3)
-
-        curr_gridid += 1
         self.grid.addWidget(self.button_start, curr_gridid, 0, 1, 10)
 
         self.setLayout(self.grid)
@@ -154,16 +127,6 @@ class PhaseWelcomeWidget(QWidget):
         for comp in self.components:
             comp.setEnabled(True)
         self.is_enabled = True
-
-    def _change_lang_en(self):
-        """Changes language to en"""
-        if self.cb_change_language:
-            self.cb_change_language(Language.EN)
-
-    def _change_lang_de(self):
-        """Changes language to de"""
-        if self.cb_change_language:
-            self.cb_change_language(Language.DE)
 
     def _start(self):
         """Starts"""

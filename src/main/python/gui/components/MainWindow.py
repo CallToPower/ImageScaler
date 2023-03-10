@@ -12,10 +12,8 @@ import logging
 import platform
 
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMenuBar, QAction
+from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMenuBar, QAction, QMessageBox
 
-from i18n.I18n import I18n
-from gui.enums.Language import Language
 from gui.components.PhaseWelcomeWidget import PhaseWelcomeWidget
 from gui.components.PhaseInputWidget import PhaseInputWidget
 from gui.components.PhaseOutputWidget import PhaseOutputWidget
@@ -23,25 +21,24 @@ from gui.components.PhaseConversionWidget import PhaseConversionWidget
 from gui.components.PhaseDoneWidget import PhaseDoneWidget
 from gui.components.AboutDialog import AboutDialog
 from gui.enums.GUIState import GUIState
-
 from lib.AppConfig import app_conf_get
-
 
 class MainWindow(QMainWindow):
     """Main window GUI"""
 
-    def __init__(self, image_cache):
+    def __init__(self, i18n, image_cache):
         """Initializes the main window
 
+        :param i18n: The i18n
         :param image_cache: The image cache
         """
         super().__init__()
 
         logging.debug('Initializing MainWindow')
 
+        self.i18n = i18n
         self.image_cache = image_cache
 
-        self.i18n = I18n(Language.DE)
         self.state = None
 
     def init_ui(self):
@@ -69,7 +66,7 @@ class MainWindow(QMainWindow):
 
         self.next_phase()
 
-        self.resize(app_conf_get('window.width', 800), app_conf_get('window.height', 500))
+        self.resize(app_conf_get('window.width', 800), app_conf_get('window.height', 700))
 
         self._center()
 
@@ -96,18 +93,29 @@ class MainWindow(QMainWindow):
             logging.debug('Platform is not Mac OS')
             self.menu_bar = self.menuBar()
 
-        menu_application = self.menu_bar.addMenu(self.i18n.translate('GUI.MAIN.MENU.APPNAME'))
+        self.menu_application = self.menu_bar.addMenu(self.i18n.translate('GUI.MAIN.MENU.APPNAME'))
 
-        action_about = QAction(self.i18n.translate('GUI.MAIN.MENU.ITEM.ABOUT'), self)
-        action_about.setShortcut('Ctrl+A')
-        action_about.triggered.connect(self._show_about_dialog)
+        self.action_about = QAction(self.i18n.translate('GUI.MAIN.MENU.ITEM.ABOUT'), self)
+        self.action_about.setShortcut('Ctrl+A')
+        self.action_about.triggered.connect(self._show_about_dialog)
 
-        action_quit = QAction(self.i18n.translate('GUI.MAIN.MENU.ITEM.QUIT'), self)
-        action_quit.setShortcut('Ctrl+Q')
-        action_quit.triggered.connect(self._quit_application)
+        self.action_quit = QAction(self.i18n.translate('GUI.MAIN.MENU.ITEM.QUIT'), self)
+        self.action_quit.setShortcut('Ctrl+Q')
+        self.action_quit.triggered.connect(self._quit_application)
 
-        menu_application.addAction(action_about)
-        menu_application.addAction(action_quit)
+        self.menu_application.addAction(self.action_about)
+        self.menu_application.addAction(self.action_quit)
+
+        if len(self.i18n.languages) > 1:
+            self.menu_language = self.menu_bar.addMenu(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE'))
+
+            for lang in self.i18n.languages:
+                action = QAction(lang, self)
+                flag = self.image_cache.get_or_load_icon('img.flag.{}'.format(lang), '{}.png'.format(lang), 'flags')
+                if flag:
+                    action.setIcon(flag)
+                action.triggered.connect(self._action_change_language)
+                self.menu_language.addAction(action)
 
     def _center(self):
         """Centers the window on the screen"""
@@ -130,17 +138,40 @@ class MainWindow(QMainWindow):
         """
         return self.state == state
 
+    def _action_change_language(self):
+        self._change_language(self.sender().text())
+
     def _change_language(self, lang):
         """Changes the language
 
         :param lang: The language
         """
-        logging.info('Changing language to {}'.format(lang))
-        self.i18n.change_language(lang)
+        if lang == self.i18n.language_main:
+            return
 
-        self._reset_phases()
-        self._init_phases()
-        self.next_phase()
+        if not self._is_in_state(GUIState.PHASE_WELCOME):
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Warning)
+            msg_box.setText(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TEXT'))
+            msg_box.setWindowTitle(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TITLE'))
+            msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+            msg_box_return = msg_box.exec()
+        else:
+            msg_box_return = QMessageBox.Ok
+
+        if msg_box_return == QMessageBox.Ok:
+            self.i18n.change_language(lang)
+
+            self.menu_application.setTitle(self.i18n.translate('GUI.MAIN.MENU.APPNAME'))
+            self.action_about.setText(self.i18n.translate('GUI.MAIN.MENU.ITEM.ABOUT'))
+            self.action_quit.setText(self.i18n.translate('GUI.MAIN.MENU.ITEM.QUIT'))
+            if len(self.i18n.languages) > 1:
+                self.menu_language.setTitle(self.i18n.translate('GUI.MAIN.MENU.LANGUAGE'))
+
+            self._reset_phases()
+            self._init_phases()
+            self.next_phase()
 
     def _phase_welcome(self):
         """Phase welcome init"""
@@ -236,9 +267,7 @@ class MainWindow(QMainWindow):
         self.phase_welcome_widget = PhaseWelcomeWidget(
                                         log=self.show_message,
                                         cb_next_phase=self.next_phase,
-                                        cb_change_language=self._change_language,
-                                        i18n=self.i18n,
-                                        image_cache=self.image_cache)
+                                        i18n=self.i18n)
         self.phase_input_widget = PhaseInputWidget(
                                         log=self.show_message,
                                         cb_cancel=self.cancel,

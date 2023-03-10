@@ -18,9 +18,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QAbstractItemView, QSizePolicy, QWidget, QGridLayout, QLabel, QPushButton, QListWidget, QListWidgetItem, QFileDialog, QMessageBox
 
 from gui.components.ListWidget import ListWidget
-
 from lib.AppConfig import app_conf_get
-
 
 class PhaseInputWidget(QWidget):
     """Phase Input widget GUI"""

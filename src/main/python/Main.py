@@ -16,7 +16,6 @@ import json
 from lib.AppConfig import app_conf_get
 from gui.MainGui import GUI
 
-
 def _initialize_logger():
     """Initializes the logger"""
     if app_conf_get('logging.log_to_file'):
@@ -30,13 +29,10 @@ def _initialize_logger():
                         datefmt=app_conf_get('logging.datefmt'))
 
     if app_conf_get('logging.log_to_file'):
-        handler_file = logging.FileHandler(
-            app_conf_get('logging.logfile'), mode='w', encoding=None, delay=False)
+        handler_file = logging.FileHandler(app_conf_get('logging.logfile'), mode='w', encoding=None, delay=False)
         handler_file.setLevel(app_conf_get('logging.loglevel'))
-        handler_file.setFormatter(logging.Formatter(
-            fmt=app_conf_get('logging.format'), datefmt=app_conf_get('logging.datefmt')))
+        handler_file.setFormatter(logging.Formatter(fmt=app_conf_get('logging.format'), datefmt=app_conf_get('logging.datefmt')))
         logging.getLogger().addHandler(handler_file)
-
 
 if __name__ == '__main__':
     print('Current working directory: {}'.format(os.getcwd()))

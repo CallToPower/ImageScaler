@@ -16,7 +16,6 @@ from PyQt5.QtWidgets import QSizePolicy, QWidget, QGridLayout, QLabel, QPushButt
 
 from lib.AppConfig import app_conf_get
 
-
 class PhaseDoneWidget(QWidget):
     """Phase Done widget GUI"""
 

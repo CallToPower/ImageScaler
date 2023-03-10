@@ -10,7 +10,6 @@
 
 from PyQt5.QtCore import QObject, pyqtSignal
 
-
 class WorkerSignals(QObject):
     """
     Defines the signals available from a running worker thread.

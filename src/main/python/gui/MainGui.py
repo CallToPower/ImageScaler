@@ -13,8 +13,11 @@ import sys
 
 from PyQt5 import QtWidgets
 
+from i18n.I18n import I18n
 from lib.ImageCache import ImageCache
 from gui.components.MainWindow import MainWindow
+
+from lib.AppConfig import app_conf_get
 
 class GUI():
     """Main GUI"""
@@ -27,7 +30,7 @@ class GUI():
         self.basedir = basedir
 
         self.image_cache = ImageCache(self.basedir)
-
+        self.i18n = I18n(self.basedir, lang=app_conf_get('language.main'))
 
     def run(self):
         """Initializes and shows the GUI"""
@@ -35,7 +38,7 @@ class GUI():
 
         app = QtWidgets.QApplication(sys.argv)
 
-        self.main_window = MainWindow(image_cache=self.image_cache)
+        self.main_window = MainWindow(i18n=self.i18n, image_cache=self.image_cache)
         self.main_window.init_ui()
         self.main_window.show()
 
