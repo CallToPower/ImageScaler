@@ -266,7 +266,7 @@ class MainWindow(QMainWindow):
 
     def next_phase(self):
         """Goes to the next phase"""
-        logging.info('Current phase: {}'.format(self.state.name))
+        logging.debug('Switching from phase: {}'.format(self.state.name))
         if self.state == GUIState.INIT_UI:
             self._phase_welcome()
         elif self.state == GUIState.PHASE_WELCOME:
@@ -282,6 +282,7 @@ class MainWindow(QMainWindow):
             self._phase_welcome()
         else:
             logging.warn('No next phase defined')
+        logging.info('Current phase: {}'.format(self.state.name))
 
     def show_message(self, msg=''):
         """Shows a message in the status bar

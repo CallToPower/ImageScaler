@@ -20,7 +20,7 @@ _app_config = {
     'build': '2023-03-09-1',
     'copyright': '© 2019-2023 Denis Meyer',
     'window.width': 800,
-    'window.height': 600,
+    'window.height': 700,
     'about.logo.scaled.width': 280,
     'about.logo.scaled.height': 80,
     'label.header.font.size': 14,

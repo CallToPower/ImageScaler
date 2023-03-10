@@ -86,13 +86,17 @@ class PhaseInputWidget(QWidget):
         self.button_select_images.clicked[bool].connect(self._select_images)
         self.components.append(self.button_select_images)
 
-        self.label_selected_images_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.HINT'))
-        self.label_selected_images_hint.setFont(self.font_label_info_small)
-        self.label_selected_images_hint.setAlignment(Qt.AlignCenter)
+        self.label_dragndrop_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.HINT'))
+        self.label_dragndrop_hint.setFont(self.font_label_info_small)
+        self.label_dragndrop_hint.setAlignment(Qt.AlignCenter)
 
         self.label_selected_images = QLabel(self.i18n.translate('GUI.PHASE.INPUT.SELECTED_IMAGES'))
         self.label_selected_images.setFont(self.font_label_header_small)
         self.label_selected_images.setAlignment(Qt.AlignLeft)
+
+        self.label_selected_images_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.SELECTED_IMAGES.HINT'))
+        self.label_selected_images_hint.setFont(self.font_label_info_small)
+        self.label_selected_images_hint.setAlignment(Qt.AlignLeft)
 
         self.widget_list = QListWidget()
         self.widget_list.setDragDropMode(QAbstractItemView.InternalMove)
@@ -123,10 +127,13 @@ class PhaseInputWidget(QWidget):
         self.grid.addWidget(self.button_select_images, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_selected_images_hint, curr_gridid, 0, 1, 10)
+        self.grid.addWidget(self.label_dragndrop_hint, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
         self.grid.addWidget(self.label_selected_images, curr_gridid, 0, 1, 10)
+
+        curr_gridid += 1
+        self.grid.addWidget(self.label_selected_images_hint, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
         self.grid.addWidget(self.widget_list, curr_gridid, 0, 1, 10)
