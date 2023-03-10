@@ -20,6 +20,8 @@ class ImageCache():
     }
 
     _cache_icon = {
+        'img.logo': None,
+        'img.logo_app': None,
         'img.flag.en': None,
         'img.flag.de': None
     }

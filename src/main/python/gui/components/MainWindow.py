@@ -12,6 +12,7 @@ import logging
 import platform
 
 from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMenuBar, QAction, QMessageBox
 
 from gui.components.PhaseWelcomeWidget import PhaseWelcomeWidget
@@ -92,6 +93,10 @@ class MainWindow(QMainWindow):
         else:
             logging.debug('Platform is not Mac OS')
             self.menu_bar = self.menuBar()
+
+        logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')
+        if logo is not None:
+            self.setWindowIcon(QIcon(logo))
 
         self.menu_application = self.menu_bar.addMenu(self.i18n.translate('GUI.MAIN.MENU.APPNAME'))
 
