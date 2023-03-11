@@ -17,7 +17,8 @@ from i18n.I18n import I18n
 from lib.ImageCache import ImageCache
 from gui.components.MainWindow import MainWindow
 
-from lib.AppConfig import app_conf_get
+from lib.Utils import _load_conf_from_home_folder, save_conf, update_logging
+from lib.AppConfig import app_conf_get, app_conf_set, get_public_values
 
 class GUI():
     """Main GUI"""
@@ -28,6 +29,21 @@ class GUI():
         :param basedir: The base directory"""
         logging.debug('Initializing MainGUI')
         self.basedir = basedir
+
+        self._init()
+
+    def _init(self):
+        """Initializes the GUI"""
+        conf_loaded, conf = _load_conf_from_home_folder()
+
+        if conf_loaded:
+            for k, v in conf.items():
+                logging.debug('Overwriting config entry "{}": "{}"'.format(k, v))
+                app_conf_set(k, v)
+        else:
+            save_conf(get_public_values())
+
+        update_logging(app_conf_get('logging.loglevel'), logtofile=app_conf_get('logging.log_to_file'))
 
         self.image_cache = ImageCache(self.basedir)
         self.i18n = I18n(self.basedir, lang=app_conf_get('language.main'))

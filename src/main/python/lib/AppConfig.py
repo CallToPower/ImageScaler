@@ -12,12 +12,15 @@ import logging
 import time
 import tempfile
 import os
+from pathlib import Path
 
 _app_config = {
     'author': 'Denis Meyer',
     'version': '2.1.0',
     'build': '2023-03-10-1',
     'copyright': '© 2019-2023 Denis Meyer',
+    'conf.folder': 'ImageScaler',
+    'conf.name': 'conf.json',
     'language.main': 'en',
     'window.width': 800,
     'window.height': 600,
@@ -28,11 +31,43 @@ _app_config = {
     'label.info.font.size': 10,
     'label.info.small.font.size': 8,
     'logging.log_to_file': False,
-    'logging.loglevel': logging.INFO,
+    'logging.loglevel': 'INFO',
     'logging.format': '[%(asctime)s] [%(levelname)-5s] [%(module)-20s:%(lineno)-4s] %(message)s',
     'logging.datefmt': '%d-%m-%Y %H:%M:%S',
-    'logging.logfile': os.path.join(os.getcwd(), 'logs', 'py-imgscaler.application-{}.log'.format(time.strftime('%d-%m-%Y-%H-%M-%S')))
+    'logging.logfile': str(Path.home()) + '/ImageScaler/logs/application-' + time.strftime('%d-%m-%Y-%H-%M-%S') + '.log'
 }
+
+def get_loglevel():
+    """Returns the log level
+
+    :return: The log level
+    """
+    _loglvl = app_conf_get('logging.loglevel')
+    _lvl = logging.INFO
+    if _loglvl == 'DEBUG':
+        _lvl = logging.DEBUG
+    elif _loglvl == 'ERROR':
+        _lvl = logging.DEBUG
+
+    return _lvl
+
+def get_public_values():
+    """Returns a dict with public values to write to a config file"""
+    vals = ['window.width',
+            'window.height',
+            'label.header.font.size',
+            'label.header.small.font.size',
+            'label.info.font.size',
+            'label.info.small.font.size',
+            'language.main',
+            'logging.log_to_file',
+            'logging.loglevel'
+            ]
+    _dict = {}
+    for v in vals:
+        _dict[v] = app_conf_get(v)
+
+    return _dict
 
 def app_conf_set(key, value):
     """Sets the value for the given key

@@ -22,7 +22,8 @@ from gui.components.PhaseConversionWidget import PhaseConversionWidget
 from gui.components.PhaseDoneWidget import PhaseDoneWidget
 from gui.components.AboutDialog import AboutDialog
 from gui.enums.GUIState import GUIState
-from lib.AppConfig import app_conf_get
+from lib.Utils import save_conf
+from lib.AppConfig import app_conf_get, app_conf_set, get_public_values
 
 class MainWindow(QMainWindow):
     """Main window GUI"""
@@ -170,6 +171,8 @@ class MainWindow(QMainWindow):
 
         if msg_box_return == QMessageBox.Ok:
             self.i18n.change_language(lang)
+            app_conf_set('language.main', lang)
+            save_conf(get_public_values())
 
             self.menu_application.setTitle(self.i18n.translate('GUI.MAIN.MENU.APPNAME'))
             self.action_about.setText(self.i18n.translate('GUI.MAIN.MENU.ITEM.ABOUT'))
