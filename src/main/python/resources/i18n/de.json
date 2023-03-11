@@ -23,7 +23,7 @@
     "GUI.MAIN.MENU.LANGUAGE.CHANGE.WARN.TEXT": "Um die Sprache zu wechseln, wir der aktuelle Fortschritt zurückgesetzt. Fortfahren?",
     "GUI.PHASE.CANCEL": "Abbrechen",
     "GUI.PHASE.WELCOME.HEADER": "Einführung",
-    "GUI.PHASE.WELCOME.TEXT": "Mit diesem Programm können Bilder skaliert und in einer PDF-Datei zusammengefasst werden.\n\nHierfür werden drei Schritte durchlaufen:\n\t1.  Bilder auswählen und sortieren\n\t2.  Konvertierungs-Einstellungen vornehmen\n\t3.  Zusammenfassung und Konvertierung\n\nKlicke \"Starten\",  um mit Schritt 1 zu beginnen.",
+    "GUI.PHASE.WELCOME.TEXT": "Mit diesem Programm können Bilder skaliert und (optional) in einer PDF-Datei zusammengefasst werden.\n\nHierfür werden drei Schritte durchlaufen:\n\t1.  Bilder auswählen und sortieren\n\t2.  Konvertierungs-Einstellungen vornehmen\n\t3.  Zusammenfassung und Konvertierung\n\nKlicke \"Starten\",  um mit Schritt 1 zu beginnen.",
     "GUI.PHASE.WELCOME.START": "Starten",
     "GUI.PHASE.WELCOME.LANG.EN": "English",
     "GUI.PHASE.WELCOME.LANG.DE": "Deutsch",

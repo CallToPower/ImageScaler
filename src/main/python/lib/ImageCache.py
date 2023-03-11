@@ -42,7 +42,7 @@ class ImageCache():
         :param name: The name
         :param path: The path
         """
-        val = self.get_pixmap(key)
+        val = self.get_pixmap(key, log_not_found=False)
         if not val:
             self.set_pixmap(key, load_pixmap(self.basedir, name, path))
             val = self.get_pixmap(key)
@@ -83,7 +83,7 @@ class ImageCache():
         if override or not key in self._cache_icon or not self.get_icon(key):
             self._cache_icon[key] = value
 
-    def get_pixmap(self, key, default=None):
+    def get_pixmap(self, key, log_not_found=True, default=None):
         """Returns the value for the given key or - if not found - a default value
 
         :param key: The key
@@ -92,7 +92,8 @@ class ImageCache():
         try:
             return self._cache_pixmap[key]
         except KeyError as exception:
-            logging.error('Returning default for key "{}": "{}"'.format(key, exception))
+            if log_not_found:
+                logging.error('Returning default for key "{}": "{}"'.format(key, exception))
             return default
 
     def get_icon(self, key, default=None):
