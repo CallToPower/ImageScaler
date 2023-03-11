@@ -17,7 +17,7 @@ from pathlib import Path
 _app_config = {
     'author': 'Denis Meyer',
     'version': '2.1.0',
-    'build': '2023-03-10-1',
+    'build': '2023-03-11-1',
     'copyright': '© 2019-2023 Denis Meyer',
     'conf.folder': 'ImageScaler',
     'conf.name': 'conf.json',
