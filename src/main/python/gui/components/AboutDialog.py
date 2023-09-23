@@ -32,6 +32,9 @@ class AboutDialog(QDialog):
         self.i18n = i18n
         self.image_cache = image_cache
 
+        self.font_label = None
+        self.grid = QGridLayout()
+
         self.setModal(True)
 
     def init_ui(self):
@@ -57,50 +60,49 @@ class AboutDialog(QDialog):
         if logo is not None:
             self.setWindowIcon(QIcon(logo))
 
-        self.grid = QGridLayout()
         self.grid.setSpacing(10)
 
-        self.label_empty = QLabel(' ')
-        self.label_author = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.AUTHOR'))
-        self.label_author.setFont(self.font_label)
-        self.label_author_val = QLabel(app_conf_get('author'))
-        self.label_copyright = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.COPYRIGHT'))
-        self.label_copyright.setFont(self.font_label)
-        self.label_copyright_val = QLabel(app_conf_get('copyright'))
-        self.label_version = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.VERSION'))
-        self.label_version.setFont(self.font_label)
-        self.label_version_val = QLabel(app_conf_get('version'))
-        self.label_build = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.BUILD'))
-        self.label_build.setFont(self.font_label)
-        self.label_build_val = QLabel(app_conf_get('build'))
+        label_empty = QLabel(' ')
+        label_author = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.AUTHOR'))
+        label_author.setFont(self.font_label)
+        label_author_val = QLabel(app_conf_get('author'))
+        label_copyright = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.COPYRIGHT'))
+        label_copyright.setFont(self.font_label)
+        label_copyright_val = QLabel(app_conf_get('copyright'))
+        label_version = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.VERSION'))
+        label_version.setFont(self.font_label)
+        label_version_val = QLabel(app_conf_get('version'))
+        label_build = QLabel(self.i18n.translate('GUI.ABOUT.LABEL.BUILD'))
+        label_build.setFont(self.font_label)
+        label_build_val = QLabel(app_conf_get('build'))
 
         logo_app = self.image_cache.get_or_load_pixmap('img.logo_app', 'logo-app.png')
         if logo_app is not None:
-            self.label_img = QLabel()
-            self.label_img.setPixmap(logo_app.scaled(app_conf_get('about.logo.scaled.width', 280), app_conf_get('about.logo.scaled.height', 80), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            label_img = QLabel()
+            label_img.setPixmap(logo_app.scaled(app_conf_get('about.logo.scaled.width', 280), app_conf_get('about.logo.scaled.height', 80), Qt.KeepAspectRatio, Qt.SmoothTransformation))
             curr_gridid = 1
-            self.grid.addWidget(self.label_img, curr_gridid, 1, 1, 2)
+            self.grid.addWidget(label_img, curr_gridid, 1, 1, 2)
 
             curr_gridid += 1
-            self.grid.addWidget(self.label_empty, curr_gridid, 0, 1, 3)
+            self.grid.addWidget(label_empty, curr_gridid, 0, 1, 3)
         else:
             curr_gridid = 0
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_author, curr_gridid, 0)
-        self.grid.addWidget(self.label_author_val, curr_gridid, 1, 1, 3)
+        self.grid.addWidget(label_author, curr_gridid, 0)
+        self.grid.addWidget(label_author_val, curr_gridid, 1, 1, 3)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_copyright, curr_gridid, 0)
-        self.grid.addWidget(self.label_copyright_val, curr_gridid, 1, 1, 3)
+        self.grid.addWidget(label_copyright, curr_gridid, 0)
+        self.grid.addWidget(label_copyright_val, curr_gridid, 1, 1, 3)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_version, curr_gridid, 0)
-        self.grid.addWidget(self.label_version_val, curr_gridid, 1, 1, 3)
+        self.grid.addWidget(label_version, curr_gridid, 0)
+        self.grid.addWidget(label_version_val, curr_gridid, 1, 1, 3)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_build, curr_gridid, 0)
-        self.grid.addWidget(self.label_build_val, curr_gridid, 1, 1, 3)
+        self.grid.addWidget(label_build, curr_gridid, 0)
+        self.grid.addWidget(label_build_val, curr_gridid, 1, 1, 3)
 
         self.setLayout(self.grid)
 

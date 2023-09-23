@@ -10,8 +10,6 @@
 
 import logging
 import os
-import json
-import csv
 
 from PIL import Image
 from PyQt5.QtCore import QObject, QRunnable, pyqtSlot
@@ -53,18 +51,18 @@ class ScalerThread(QRunnable):
         try:
             list_img = []
             for img in self.images:
-                logging.debug('Processing image "{}", {}x{} px (width x height)'.format(img, self.width, self.height))
+                logging.debug('Processing image "%s", %dx%d px (width x height)', img, self.width, self.height)
                 scaled_img_name = self._get_scaled_img_path(img)
                 if scaled_img_name:
-                    logging.debug('Scaled path of image "{}": "{}"'.format(img, scaled_img_name))
-                    logging.debug('Writing to "{}"'.format(scaled_img_name))
+                    logging.debug('Scaled path of image "%s": "%s"', img, scaled_img_name)
+                    logging.debug('Writing to "%s"', scaled_img_name)
                     try:
                         self._scale_image(input_image_path=img,
                                           output_image_path=scaled_img_name,
                                           width=self.width,
                                           height=self.height)
-                    except Exception as e:
-                        logging.debug('Exception while scaling: {}'.format(e))
+                    except Exception as ex:
+                        logging.warning('Exception while scaling: %s', ex)
 
                     processed_img_cnt += 1
 
@@ -77,8 +75,8 @@ class ScalerThread(QRunnable):
                                 list_img.append(rgb)
                             else:
                                 list_img.append(Image.open(scaled_img_name))
-                    except Exception as e:
-                        logging.debug('Exception while converting rgba to rgb: {}'.format(e))
+                    except Exception as ex:
+                        logging.warning('Exception while converting rgba to rgb: %s', ex)
 
                     self.signals.scalingresult.emit(processed_img_cnt, len(self.images))
         except Exception as ex:
@@ -88,16 +86,16 @@ class ScalerThread(QRunnable):
             pdf_written = False
             if self.createpdf and list_img:
                 pdf_written = True
-                pdf_name = '{}/{}.pdf'.format(self.outdir, self.pdf_name)
+                pdf_name = f'{self.outdir}/{self.pdf_name}.pdf'
                 if os.path.exists(pdf_name):
                     try:
-                        logging.debug('File "" exists, deleting'.format(pdf_name))
+                        logging.debug('File "%s" exists, deleting', pdf_name)
                         os.remove(pdf_name)
-                    except Exception as e:
-                        logging.debug('Exception while deleting existing PDF file: {}'.format(e))
+                    except Exception as ex:
+                        logging.debug('Exception while deleting existing PDF file: %s', ex)
                         pdf_written = False
                 if pdf_written:
-                    logging.debug('Generating PDF file "{}"'.format(pdf_name))
+                    logging.debug('Generating PDF file "%s"', pdf_name)
                     list_img[0].save(pdf_name, 'PDF', resolution=100.0, save_all=True, append_images=list_img[1:])
             self.signals.scalingfinished.emit(processed_img_cnt, len(self.images), pdf_written)
 
@@ -107,17 +105,17 @@ class ScalerThread(QRunnable):
         :param path_img: The image path
         """
         try:
-            with open(path_img) as f:
+            with open(path_img, encoding='utf-8') as f:
                 fname = os.path.basename(f.name)
                 lindex = fname.rfind('.')
                 newname = fname[:lindex] + self.scaled_image_suffix
                 suffix = fname[lindex:]
-                out_path = '{}/{}{}'.format(self.outdir, newname, suffix)
-                logging.debug('Output image path: "{}"'.format(out_path))
+                out_path = f'{self.outdir}/{newname}{suffix}'
+                logging.debug('Output image path: "%s"', out_path)
 
                 return out_path
-        except Exception as e:
-            logging.error('Error getting path for image "{}": {}'.format(path_img, e))
+        except Exception as ex:
+            logging.error('Error getting path for image "%s": %s', path_img, ex)
             return None
 
     def _scale_image(self,
@@ -133,22 +131,22 @@ class ScalerThread(QRunnable):
         :param height: The height [optional if width set]
         """
         original_image = Image.open(input_image_path)
-        w, h = original_image.size
-        logging.debug('The original image size is {wide} wide x {height} high'.format(wide=w, height=h))
+        orig_width, orig_height = original_image.size
+        logging.debug('The original image size is %d wide x %d high', orig_width, orig_height)
 
         if width and height:
             max_size = (width, height)
         elif width:
-            max_size = (width, h)
+            max_size = (width, orig_height)
         elif height:
-            max_size = (w, height)
+            max_size = (orig_width, height)
         else:
             # No width or height specified
             raise RuntimeError('Width or height required!')
 
-        original_image.thumbnail(max_size, Image.ANTIALIAS)
+        original_image.thumbnail(max_size, Image.LANCZOS)
         original_image.save(output_image_path)
 
         scaled_image = Image.open(output_image_path)
         width, height = scaled_image.size
-        logging.debug('The scaled image size is {wide} wide x {height} high'.format(wide=width, height=height))
+        logging.debug('The scaled image size is %d wide x %d high', width, height)

@@ -93,7 +93,7 @@ class ImageCache():
             return self._cache_pixmap[key]
         except KeyError as exception:
             if log_not_found:
-                logging.error('Returning default for key "{}": "{}"'.format(key, exception))
+                logging.error('Returning default for key "%s": "%s"', key, exception)
             return default
 
     def get_icon(self, key, default=None):
@@ -105,5 +105,5 @@ class ImageCache():
         try:
             return self._cache_icon[key]
         except KeyError as exception:
-            logging.error('Returning default for key "{}": "{}"'.format(key, exception))
+            logging.error('Returning default for key "%s": "%s"', key, exception)
             return default

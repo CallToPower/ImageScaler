@@ -13,7 +13,6 @@ import uuid
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QHBoxLayout
-from i18n.I18n import I18n
 
 
 class ListWidget(QWidget):
@@ -35,7 +34,7 @@ class ListWidget(QWidget):
         self.path_img = path_img
         self.i18n = i18n
 
-        label = QLabel("{}".format(img))
+        label = QLabel(f"{img}")
 
         button = QPushButton(self.i18n.translate('GUI.MAIN.WIDGET.REMOVE'))
         button.clicked[bool].connect(self._remove)
@@ -56,7 +55,6 @@ class ListWidget(QWidget):
         if len(items) > 0:
             for item in items:
                 if self.id == item.id:
-                    logging.debug("Removing element #{}".format(
-                        self.widget_list.row(item)))
+                    logging.debug('Removing element #%d', self.widget_list.row(item))
                     self.widget_list.takeItem(self.widget_list.row(item))
                     return

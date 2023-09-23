@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ImageScaler"
-#define MyAppVersion "2.0"
+#define MyAppVersion "2.2.0"
 #define MyAppPublisher "CallToPower"
 #define MyAppURL "https://github.com/CallToPower/ImageScaler"
 #define MyAppExeName "ImageScaler.exe"

@@ -45,102 +45,103 @@ class PhaseInputWidget(QWidget):
         self.widget_list = None
         self.components = []
 
+        self.is_enabled = False
+
         self.setAcceptDrops(True)
 
     def init_ui(self):
         """Initiates application UI"""
         logging.debug('Initializing PhaseInputWidget GUI')
 
-        self.font_label_header = QFont()
-        self.font_label_header.setBold(True)
-        self.font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
+        font_label_header = QFont()
+        font_label_header.setBold(True)
+        font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
 
-        self.font_label_header_small = QFont()
-        self.font_label_header_small.setBold(False)
-        self.font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
+        font_label_header_small = QFont()
+        font_label_header_small.setBold(False)
+        font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
 
-        self.font_label_info_small = QFont()
-        self.font_label_info_small.setBold(False)
-        self.font_label_info_small.setPointSize(app_conf_get('label.info.small.font.size', 10))
+        font_label_info_small = QFont()
+        font_label_info_small.setBold(False)
+        font_label_info_small.setPointSize(app_conf_get('label.info.small.font.size', 10))
 
-        self.line_css = 'background-color: #c0c0c0;'
-        self.max_img_size_digits = 5
+        line_css = 'background-color: #c0c0c0;'
 
         # Components
 
-        self.label_header = QLabel(self.i18n.translate('GUI.PHASE.INPUT.HEADER'))
-        self.label_header.setFont(self.font_label_header)
-        self.label_header.setAlignment(Qt.AlignCenter)
+        label_header = QLabel(self.i18n.translate('GUI.PHASE.INPUT.HEADER'))
+        label_header.setFont(font_label_header)
+        label_header.setAlignment(Qt.AlignCenter)
 
-        self.line_select_images_1 = QWidget()
-        self.line_select_images_1.setFixedHeight(1)
-        self.line_select_images_1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.line_select_images_1.setStyleSheet(self.line_css)
+        line_select_images_1 = QWidget()
+        line_select_images_1.setFixedHeight(1)
+        line_select_images_1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        line_select_images_1.setStyleSheet(line_css)
 
-        self.line_select_images_2 = QWidget()
-        self.line_select_images_2.setFixedHeight(1)
-        self.line_select_images_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.line_select_images_2.setStyleSheet(self.line_css)
+        line_select_images_2 = QWidget()
+        line_select_images_2.setFixedHeight(1)
+        line_select_images_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        line_select_images_2.setStyleSheet(line_css)
 
-        self.button_select_images = QPushButton(self.i18n.translate('GUI.PHASE.INPUT.SELECT_IMAGES'))
-        self.button_select_images.clicked[bool].connect(self._select_images)
-        self.components.append(self.button_select_images)
+        button_select_images = QPushButton(self.i18n.translate('GUI.PHASE.INPUT.SELECT_IMAGES'))
+        button_select_images.clicked[bool].connect(self._select_images)
+        self.components.append(button_select_images)
 
-        self.label_dragndrop_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.HINT'))
-        self.label_dragndrop_hint.setFont(self.font_label_info_small)
-        self.label_dragndrop_hint.setAlignment(Qt.AlignCenter)
+        label_dragndrop_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.HINT'))
+        label_dragndrop_hint.setFont(font_label_info_small)
+        label_dragndrop_hint.setAlignment(Qt.AlignCenter)
 
-        self.label_selected_images = QLabel(self.i18n.translate('GUI.PHASE.INPUT.SELECTED_IMAGES'))
-        self.label_selected_images.setFont(self.font_label_header_small)
-        self.label_selected_images.setAlignment(Qt.AlignLeft)
+        label_selected_images = QLabel(self.i18n.translate('GUI.PHASE.INPUT.SELECTED_IMAGES'))
+        label_selected_images.setFont(font_label_header_small)
+        label_selected_images.setAlignment(Qt.AlignLeft)
 
-        self.label_selected_images_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.SELECTED_IMAGES.HINT'))
-        self.label_selected_images_hint.setFont(self.font_label_info_small)
-        self.label_selected_images_hint.setAlignment(Qt.AlignLeft)
+        label_selected_images_hint = QLabel(self.i18n.translate('GUI.PHASE.INPUT.SELECTED_IMAGES.HINT'))
+        label_selected_images_hint.setFont(font_label_info_small)
+        label_selected_images_hint.setAlignment(Qt.AlignLeft)
 
         self.widget_list = QListWidget()
         self.widget_list.setDragDropMode(QAbstractItemView.InternalMove)
         self.widget_list.model().rowsMoved.connect(self._item_moved)
         self.widget_list.current_images = []
 
-        self.button_cancel = QPushButton(self.i18n.translate('GUI.PHASE.CANCEL'))
-        self.button_cancel.clicked[bool].connect(self._cancel)
-        self.components.append(self.button_cancel)
+        button_cancel = QPushButton(self.i18n.translate('GUI.PHASE.CANCEL'))
+        button_cancel.clicked[bool].connect(self._cancel)
+        self.components.append(button_cancel)
 
-        self.button_next_phase = QPushButton(self.i18n.translate('GUI.PHASE.INPUT.NEXT_PHASE'))
-        self.button_next_phase.clicked[bool].connect(self._next_phase)
-        self.components.append(self.button_next_phase)
+        button_next_phase = QPushButton(self.i18n.translate('GUI.PHASE.INPUT.NEXT_PHASE'))
+        button_next_phase.clicked[bool].connect(self._next_phase)
+        self.components.append(button_next_phase)
 
         # Layout
 
-        self.grid = QGridLayout()
-        self.grid.setSpacing(20)
+        grid = QGridLayout()
+        grid.setSpacing(20)
 
-        # self.grid.addWidget(widget, row, column, rowspan, columnspan)
+        # grid.addWidget(widget, row, column, rowspan, columnspan)
 
         curr_gridid = 0
-        self.grid.addWidget(self.line_select_images_1, curr_gridid, 0, 1, 4)
-        self.grid.addWidget(self.label_header, curr_gridid, 4, 1, 2)
-        self.grid.addWidget(self.line_select_images_2, curr_gridid, 6, 1, 4)
+        grid.addWidget(line_select_images_1, curr_gridid, 0, 1, 4)
+        grid.addWidget(label_header, curr_gridid, 4, 1, 2)
+        grid.addWidget(line_select_images_2, curr_gridid, 6, 1, 4)
 
         curr_gridid += 1
-        self.grid.addWidget(self.button_select_images, curr_gridid, 0, 1, 5)
-        self.grid.addWidget(self.label_dragndrop_hint, curr_gridid, 5, 1, 5)
+        grid.addWidget(button_select_images, curr_gridid, 0, 1, 5)
+        grid.addWidget(label_dragndrop_hint, curr_gridid, 5, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_selected_images, curr_gridid, 0, 1, 10)
+        grid.addWidget(label_selected_images, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_selected_images_hint, curr_gridid, 0, 1, 10)
+        grid.addWidget(label_selected_images_hint, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
-        self.grid.addWidget(self.widget_list, curr_gridid, 0, 1, 10)
+        grid.addWidget(self.widget_list, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
-        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 4)
-        self.grid.addWidget(self.button_next_phase, curr_gridid, 4, 1, 6)
+        grid.addWidget(button_cancel, curr_gridid, 0, 1, 4)
+        grid.addWidget(button_next_phase, curr_gridid, 4, 1, 6)
 
-        self.setLayout(self.grid)
+        self.setLayout(grid)
         self._reset_enabled()
 
     def _item_moved(self, _i1, i_from, _i2, _i3, i_to):
@@ -148,8 +149,8 @@ class PhaseInputWidget(QWidget):
             _imgs = self.widget_list.current_images
             elem = _imgs[i_from]
             _imgs.insert(i_to, elem)
-            for i, el in enumerate(_imgs):
-                if i != i_to and el == elem:
+            for i, ele in enumerate(_imgs):
+                if i != i_to and ele == elem:
                     _imgs.pop(i)
                     return
 
@@ -190,13 +191,23 @@ class PhaseInputWidget(QWidget):
                 lst.append(u.toLocalFile())
         return lst
 
+    # @override
     def dragEnterEvent(self, event):
+        """dragEnterEvent
+
+        :param event: event
+        """
         if self._filter_image_files(event):
             event.accept()
         else:
             event.ignore()
 
+    # @override
     def dropEvent(self, event):
+        """dropEvent
+
+        :param event: event
+        """
         files = self._filter_image_files(event)
         for file in files:
             self._add_to_list(file)
@@ -211,11 +222,11 @@ class PhaseInputWidget(QWidget):
         :param img: The image
         """
         if path_img in self.widget_list.current_images:
-            logging.debug('Skipping adding image "{}" since it is already contained in list'.format(path_img))
+            logging.debug('Skipping adding image "%s" since it is already contained in list', path_img)
             return
-        logging.debug('Adding to list: "{}"'.format(path_img))
+        logging.debug('Adding to list: "%s"', path_img)
         try:
-            with open(path_img) as f:
+            with open(path_img, encoding='utf-8') as f:
                 fname = os.path.basename(f.name)
                 item = QListWidgetItem(self.widget_list)
                 item_widget = ListWidget(self.i18n, path_img, fname, self.widget_list)
@@ -224,8 +235,8 @@ class PhaseInputWidget(QWidget):
                 self.widget_list.addItem(item)
                 self.widget_list.setItemWidget(item, item_widget)
                 self.widget_list.current_images.append(path_img)
-        except Exception as e:
-            logging.error('Error adding image "{}" to list: {}'.format(path_img, e))
+        except Exception as ex:
+            logging.error('Error adding image "%s" to list: %s', path_img, ex)
 
     def _select_images(self):
         """Selects images"""
@@ -237,7 +248,7 @@ class PhaseInputWidget(QWidget):
             self.log(self.i18n.translate('GUI.PHASE.INPUT.LOG.SELECT_IMAGES_SUCCESS').format(len(filenames)))
             for fname in filenames:
                 if filetype.is_image(fname):
-                    logging.debug('Selected file name: "{}"'.format(fname))
+                    logging.debug('Selected file name: "%s"', fname)
                     self._add_to_list(fname)
         else:
             self.log(self.i18n.translate('GUI.PHASE.INPUT.LOG.SELECT_IMAGES_CANCEL').format(0))
@@ -260,10 +271,10 @@ class PhaseInputWidget(QWidget):
         if not self.widget_list.current_images:
             err.append(self.i18n.translate('GUI.PHASE.INPUT.ERROR.NO_IMAGES_SELECTED'))
         if err:
-            logging.debug('Errors: {}'.format(err))
+            logging.debug('Errors: %s', err)
             msg = '<ul>'
-            for e in err:
-                msg += '<li>{}</li>'.format(e)
+            for _err in err:
+                msg += f'<li>{_err}</li>'
             msg += '</ul>'
             msgbox = QMessageBox()
             logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')

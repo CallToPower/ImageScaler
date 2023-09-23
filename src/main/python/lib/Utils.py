@@ -13,7 +13,7 @@ def update_logging(loglevel, logtofile=False):
     :param loglevel: DEBUG, INFO, ERROR
     :param logtofile: Flag whether to log to file
     """
-    logging.info('Setting log level to "{}"'.format(loglevel))
+    logging.info('Setting log level to "%s"', loglevel)
     _lvl = get_loglevel()
     logging.getLogger().setLevel(_lvl)
 
@@ -24,7 +24,7 @@ def update_logging(loglevel, logtofile=False):
             if not os.path.exists(basedir):
                 os.makedirs(basedir)
         except Exception as ex:
-            logging.error('Failed creating a new directory "{}": {}'.format(basedir, ex))
+            logging.error('Failed creating a new directory "%s": %s', basedir, ex)
         handler_file = logging.FileHandler(app_conf_get('logging.logfile'), mode='w', encoding='utf-8', delay=False)
         handler_file.setLevel(_lvl)
         handler_file.setFormatter(logging.Formatter(fmt=app_conf_get('logging.format'), datefmt=app_conf_get('logging.datefmt')))
@@ -40,13 +40,13 @@ def _load_conf(file_path):
     config = {}
     loaded = False
     if os.path.isfile(file_path):
-        logging.info('Config exists. Loading from "{}"'.format(file_path))
+        logging.info('Config exists. Loading from "%s"', file_path)
         try:
             with open(file_path, 'r', encoding='utf-8') as jsonfile:
                 config = json.load(jsonfile)
                 loaded = True
         except Exception as ex:
-            logging.error('Failed loading from "{}": {}'.format(file_path, ex))
+            logging.error('Failed loading from "%s": %s', file_path, ex)
 
     return loaded, config
 
@@ -57,7 +57,7 @@ def _load_conf_from_home_folder():
     file = app_conf_get('conf.name')
 
     file_path = os.path.join(homedir, homefolder, file)
-    logging.info('Trying to load configuration from home directory {}'.format(file_path))
+    logging.info('Trying to load configuration from home directory "%s"', file_path)
 
     return _load_conf(file_path)
 
@@ -73,18 +73,18 @@ def save_conf(config):
     home_dir_path = os.path.join(homedir, homefolder)
     file_path = os.path.join(homedir, homefolder, file)
 
-    logging.info('Writing config to home directory "{}"'.format(file_path))
+    logging.info('Writing config to home directory "%s"', file_path)
     try:
         if not os.path.exists(home_dir_path):
             os.makedirs(home_dir_path)
     except Exception as ex:
-        logging.error('Failed creating a new directory in home directory "{}": {}'.format(home_dir_path, ex))
+        logging.error('Failed creating a new directory in home directory "%s": %s', home_dir_path, ex)
 
     try:
-        with open(file_path, 'w') as jsonfile:
+        with open(file_path, 'w', encoding='utf-8') as jsonfile:
             json.dump(config, jsonfile)
     except Exception as ex:
-        logging.error('Failed writing to "{}": {}'.format(file_path, ex))
+        logging.error('Failed writing to "%s": %s', file_path, ex)
 
 def load_languages(basedir):
     """Loads the available languages
@@ -94,7 +94,7 @@ def load_languages(basedir):
     logging.info('Loading available languages')
     path = os.path.join(basedir, 'resources', 'i18n')
     lang_files = [f[:-len('.json')] for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and f.endswith('.json')]
-    logging.info('Available languages: {}'.format(lang_files))
+    logging.info('Available languages: %s', lang_files)
     return lang_files
 
 def load_i18n(basedir, lang):
@@ -103,20 +103,20 @@ def load_i18n(basedir, lang):
     :param basedir: The base path
     :param lang: The language
     """
-    file_path = os.path.join(basedir, 'resources', 'i18n', '{}.json'.format(lang))
-    logging.info('Trying to load translations from "{}"'.format(file_path))
+    file_path = os.path.join(basedir, 'resources', 'i18n', f'{lang}.json')
+    logging.info('Trying to load translations from "%s"', file_path)
 
     translations = {}
-    
+
     if os.path.isfile(file_path):
         logging.info('Translations exist. Loading.')
         try:
             with open(file_path, 'r', encoding='utf-8') as jsonfile:
                 translations = json.load(jsonfile)
         except Exception as ex:
-            logging.error('Failed loading from "{}": {}'.format(file_path, ex))
+            logging.error('Failed loading from "%s": %s', file_path, ex)
     else:
-        logging.info('Translations "{}" do not exist.'.format(file_path))
+        logging.info('Translations "%s" do not exist.', file_path)
 
     return translations
 
@@ -132,11 +132,12 @@ def load_pixmap(basedir, file, base_path=None):
         file_path = os.path.join(basedir, 'resources', file)
     else:
         file_path = os.path.join(basedir, 'resources', base_path, file)
-    logging.debug('Loading image "{}" from directory "{}"'.format(file, file_path))
+    logging.debug('Loading image "%s" from directory "%s"', file, file_path)
     try:
         return QPixmap(file_path) if os.path.exists(file_path) else None
-    except:
-        raise SystemExit('Could not load image "{}"'.format(file_path))
+    except Exception as ex:
+        logging.error('Could not load image "%s"', file_path)
+        raise SystemExit(f'Could not load image "{file_path}"') from ex
 
 def load_icon(basedir, file, base_path=None):
     """
@@ -150,8 +151,9 @@ def load_icon(basedir, file, base_path=None):
         file_path = os.path.join(basedir, 'resources', file)
     else:
         file_path = os.path.join(basedir, 'resources', base_path, file)
-    logging.debug('Loading image "{}" from directory "{}"'.format(file, file_path))
+    logging.debug('Loading image "%s" from directory "%s"', file, file_path)
     try:
         return QIcon(file_path) if os.path.exists(file_path) else None
-    except:
-        raise SystemExit('Could not load image "{}"'.format(file_path))
+    except Exception as ex:
+        logging.error('Could not load image "%s"', file_path)
+        raise SystemExit(f'Could not load image "{file_path}"') from ex

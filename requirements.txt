@@ -1,4 +1,4 @@
-PyInstaller==5.8.0
+PyInstaller==6.0.0
 PyQt5==5.15.9
-Pillow==9.4.0
+Pillow==10.0.1
 filetype==1.2.0

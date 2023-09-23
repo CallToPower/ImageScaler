@@ -77,6 +77,8 @@
     "GUI.PHASE.CONVERSION.ERROR.START_PROCESSING": "Die Konvertierung kann nicht gestartet werden:",
     "GUI.PHASE.CONVERSION.ERROR.ERROR": "Fehler",
     "GUI.PHASE.CONVERSION.LOG.START_PROCESSING": "Starte Verarbeitung",
+    "GUI.PHASE.CONVERSION.LOG.DONE_PROCESSING.SINGULAR": "{}/{} Bild erfolgreich verarbeitet",
+    "GUI.PHASE.CONVERSION.LOG.DONE_PROCESSING.PLURAL": "{}/{} Bilder erfolgreich verarbeitet",
     "GUI.PHASE.CONVERSION.LOG.DONE_PROCESSING.SINGULAR.PDF": "{}/{} Bild erfolgreich verarbeitet, PDF-Datei erstellt",
     "GUI.PHASE.CONVERSION.LOG.DONE_PROCESSING.PLURAL.PDF": "{}/{} Bilder erfolgreich verarbeitet, PDF-Datei erstellt",
     "GUI.PHASE.CONVERSION.LOG.DONE_PROCESSING.SINGULAR.NO_PDF": "{}/{} Bild erfolgreich verarbeitet",

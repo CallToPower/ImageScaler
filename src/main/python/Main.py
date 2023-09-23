@@ -10,8 +10,6 @@
 
 import os
 import logging
-import urllib.request
-import json
 
 from lib.AppConfig import app_conf_get, get_loglevel
 from gui.MainGui import GUI
@@ -19,10 +17,10 @@ from gui.MainGui import GUI
 def _initialize_logger():
     """Initializes the logger"""
     if app_conf_get('logging.log_to_file'):
-        basedir = os.path.dirname(app_conf_get('logging.logfile'))
+        _basedir = os.path.dirname(app_conf_get('logging.logfile'))
 
-        if not os.path.exists(basedir):
-            os.makedirs(basedir)
+        if not os.path.exists(_basedir):
+            os.makedirs(_basedir)
 
     _lvl = get_loglevel()
 
@@ -37,7 +35,7 @@ def _initialize_logger():
         logging.getLogger().addHandler(handler_file)
 
 if __name__ == '__main__':
-    print('Current working directory: {}'.format(os.getcwd()))
+    print(f'Current working directory: {os.getcwd()}')
 
     _initialize_logger()
 

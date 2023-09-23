@@ -44,170 +44,178 @@ class PhaseOutputWidget(QWidget):
         self.checkbox_create_pdf = None
         self.components = []
 
+        self.edit_output_dir = None
+
+        self.is_enabled = False
+
         self.output_dir = ''
 
     def init_ui(self):
         """Initiates application UI"""
         logging.debug('Initializing PhaseOutputWidget GUI')
 
-        self.font_label_header = QFont()
-        self.font_label_header.setBold(True)
-        self.font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
+        font_label_header = QFont()
+        font_label_header.setBold(True)
+        font_label_header.setPointSize(app_conf_get('label.header.font.size', 20))
 
-        self.font_label_header_small = QFont()
-        self.font_label_header_small.setBold(False)
-        self.font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
+        font_label_header_small = QFont()
+        font_label_header_small.setBold(False)
+        font_label_header_small.setPointSize(app_conf_get('label.header.small.font.size', 18))
 
-        self.font_label_info = QFont()
-        self.font_label_info.setBold(False)
-        self.font_label_info.setPointSize(app_conf_get('label.info.font.size', 16))
+        font_label_info = QFont()
+        font_label_info.setBold(False)
+        font_label_info.setPointSize(app_conf_get('label.info.font.size', 16))
 
-        self.font_label_info_small = QFont()
-        self.font_label_info_small.setBold(False)
-        self.font_label_info_small.setPointSize(app_conf_get('label.info.small.font.size', 12))
+        font_label_info_small = QFont()
+        font_label_info_small.setBold(False)
+        font_label_info_small.setPointSize(app_conf_get('label.info.small.font.size', 12))
 
-        self.line_css = 'background-color: #c0c0c0;'
-        self.max_img_size_digits = 5
+        line_css = 'background-color: #c0c0c0;'
+        max_img_size_digits = 5
 
         # Components
 
-        self.label_header = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.HEADER'))
-        self.label_header.setFont(self.font_label_header)
-        self.label_header.setAlignment(Qt.AlignCenter)
+        label_header = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.HEADER'))
+        label_header.setFont(font_label_header)
+        label_header.setAlignment(Qt.AlignCenter)
 
-        self.line_1 = QWidget()
-        self.line_1.setFixedHeight(1)
-        self.line_1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.line_1.setStyleSheet(self.line_css)
+        line_1 = QWidget()
+        line_1.setFixedHeight(1)
+        line_1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        line_1.setStyleSheet(line_css)
 
-        self.line_2 = QWidget()
-        self.line_2.setFixedHeight(1)
-        self.line_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.line_2.setStyleSheet(self.line_css)
+        line_2 = QWidget()
+        line_2.setFixedHeight(1)
+        line_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        line_2.setStyleSheet(line_css)
 
-        self.label_image_size = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE'))
-        self.label_image_size.setFont(self.font_label_header_small)
-        self.label_image_size.setAlignment(Qt.AlignLeft)
+        label_image_size = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE'))
+        label_image_size.setFont(font_label_header_small)
+        label_image_size.setAlignment(Qt.AlignLeft)
 
-        self.label_image_size_width = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_WIDTH'))
-        self.label_image_size_width.setFont(self.font_label_info)
-        self.label_image_size_width.setAlignment(Qt.AlignLeft)
+        label_image_size_width = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_WIDTH'))
+        label_image_size_width.setFont(font_label_info)
+        label_image_size_width.setAlignment(Qt.AlignLeft)
 
-        self.label_image_size_px = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PX'))
-        self.label_image_size_px.setFont(self.font_label_info)
-        self.label_image_size_px.setAlignment(Qt.AlignLeft)
+        label_image_size_px = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PX'))
+        label_image_size_px.setFont(font_label_info)
+        label_image_size_px.setAlignment(Qt.AlignLeft)
 
-        self.label_image_size_px2 = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PX'))
-        self.label_image_size_px2.setFont(self.font_label_info)
-        self.label_image_size_px2.setAlignment(Qt.AlignLeft)
+        label_image_size_px2 = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PX'))
+        label_image_size_px2.setFont(font_label_info)
+        label_image_size_px2.setAlignment(Qt.AlignLeft)
 
-        self.label_image_size_times = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_TIMES'))
-        self.label_image_size_times.setFont(self.font_label_info)
-        self.label_image_size_times.setAlignment(Qt.AlignCenter)
+        label_image_size_times = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_TIMES'))
+        label_image_size_times.setFont(font_label_info)
+        label_image_size_times.setAlignment(Qt.AlignCenter)
 
-        self.label_image_size_height = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_HEIGHT'))
-        self.label_image_size_height.setFont(self.font_label_info)
-        self.label_image_size_height.setAlignment(Qt.AlignLeft)
+        label_image_size_height = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_HEIGHT'))
+        label_image_size_height.setFont(font_label_info)
+        label_image_size_height.setAlignment(Qt.AlignLeft)
 
         self.edit_image_size_width = QLineEdit()
         self.edit_image_size_width.setValidator(QIntValidator())
-        self.edit_image_size_width.setMaxLength(self.max_img_size_digits)
+        self.edit_image_size_width.setMaxLength(max_img_size_digits)
         self.edit_image_size_width.setText('1280')
         self.components.append(self.edit_image_size_width)
 
         self.edit_image_size_height = QLineEdit()
         self.edit_image_size_height.setValidator(QIntValidator())
-        self.edit_image_size_height.setMaxLength(self.max_img_size_digits)
+        self.edit_image_size_height.setMaxLength(max_img_size_digits)
         self.edit_image_size_height.setText('')
         self.components.append(self.edit_image_size_height)
 
-        self.label_image_size_info = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_INFO'))
-        self.label_image_size_info.setFont(self.font_label_info_small)
-        self.label_image_size_info.setAlignment(Qt.AlignLeft)
+        label_image_size_info = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.IMAGE_SIZE_INFO'))
+        label_image_size_info.setFont(font_label_info_small)
+        label_image_size_info.setAlignment(Qt.AlignLeft)
 
-        self.label_output_dir = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.OUTPUT_DIR'))
-        self.label_output_dir.setFont(self.font_label_header_small)
-        self.label_output_dir.setAlignment(Qt.AlignLeft)
+        label_output_dir = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.OUTPUT_DIR'))
+        label_output_dir.setFont(font_label_header_small)
+        label_output_dir.setAlignment(Qt.AlignLeft)
 
         self.edit_output_dir = QLineEdit()
         self.edit_output_dir.setText(self.output_dir)
         self.edit_output_dir.setEnabled(False)
 
-        self.button_output_dir = QPushButton(self.i18n.translate('GUI.PHASE.OUTPUT.BUTTON.SELECT_OUTPUT_DIR'))
-        self.button_output_dir.clicked[bool].connect(self._select_output_dir)
-        self.components.append(self.button_output_dir)
+        button_output_dir = QPushButton(self.i18n.translate('GUI.PHASE.OUTPUT.BUTTON.SELECT_OUTPUT_DIR'))
+        button_output_dir.clicked[bool].connect(self._select_output_dir)
+        self.components.append(button_output_dir)
 
-        self.label_pdf = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PDF'))
-        self.label_pdf.setFont(self.font_label_header_small)
-        self.label_pdf.setAlignment(Qt.AlignLeft)
+        label_pdf = QLabel(self.i18n.translate('GUI.PHASE.OUTPUT.LABEL.PDF'))
+        label_pdf.setFont(font_label_header_small)
+        label_pdf.setAlignment(Qt.AlignLeft)
 
         self.checkbox_create_pdf = QCheckBox(self.i18n.translate('GUI.PHASE.OUTPUT.CHECKBOX.CHECKBOX_CREATE_PDF'))
         self.checkbox_create_pdf.setChecked(True)
         self.components.append(self.checkbox_create_pdf)
 
-        self.label_spacer = QLabel('')
+        label_spacer = QLabel('')
 
-        self.button_cancel = QPushButton(self.i18n.translate('GUI.PHASE.CANCEL'))
-        self.button_cancel.clicked[bool].connect(self._cancel)
-        self.components.append(self.button_cancel)
+        button_cancel = QPushButton(self.i18n.translate('GUI.PHASE.CANCEL'))
+        button_cancel.clicked[bool].connect(self._cancel)
+        self.components.append(button_cancel)
 
-        self.button_next_phase = QPushButton(self.i18n.translate('GUI.PHASE.OUTPUT.NEXT_PHASE'))
-        self.button_next_phase.clicked[bool].connect(self._next_phase)
-        self.components.append(self.button_next_phase)
+        button_next_phase = QPushButton(self.i18n.translate('GUI.PHASE.OUTPUT.NEXT_PHASE'))
+        button_next_phase.clicked[bool].connect(self._next_phase)
+        self.components.append(button_next_phase)
 
         # Layout
 
-        self.grid = QGridLayout()
-        self.grid.setSpacing(20)
+        grid = QGridLayout()
+        grid.setSpacing(20)
 
-        # self.grid.addWidget(widget, row, column, rowspan, columnspan)
+        # grid.addWidget(widget, row, column, rowspan, columnspan)
 
         curr_gridid = 0
-        self.grid.addWidget(self.line_1, curr_gridid, 0, 1, 1)
-        self.grid.addWidget(self.label_header, curr_gridid, 1, 1, 3)
-        self.grid.addWidget(self.line_2, curr_gridid, 4, 1, 1)
+        grid.addWidget(line_1, curr_gridid, 0, 1, 1)
+        grid.addWidget(label_header, curr_gridid, 1, 1, 3)
+        grid.addWidget(line_2, curr_gridid, 4, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_image_size, curr_gridid, 0, 1, 5)
+        grid.addWidget(label_image_size, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_image_size_width, curr_gridid, 0, 1, 3)
-        self.grid.addWidget(self.label_image_size_height, curr_gridid, 3, 1, 2)
+        grid.addWidget(label_image_size_width, curr_gridid, 0, 1, 3)
+        grid.addWidget(label_image_size_height, curr_gridid, 3, 1, 2)
 
         curr_gridid += 1
-        self.grid.addWidget(self.edit_image_size_width, curr_gridid, 0, 1, 1)
-        self.grid.addWidget(self.label_image_size_px, curr_gridid, 1, 1, 1)
-        self.grid.addWidget(self.label_image_size_times, curr_gridid, 2, 1, 1)
-        self.grid.addWidget(self.edit_image_size_height, curr_gridid, 3, 1, 1)
-        self.grid.addWidget(self.label_image_size_px2, curr_gridid, 4, 1, 1)
+        grid.addWidget(self.edit_image_size_width, curr_gridid, 0, 1, 1)
+        grid.addWidget(label_image_size_px, curr_gridid, 1, 1, 1)
+        grid.addWidget(label_image_size_times, curr_gridid, 2, 1, 1)
+        grid.addWidget(self.edit_image_size_height, curr_gridid, 3, 1, 1)
+        grid.addWidget(label_image_size_px2, curr_gridid, 4, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_image_size_info, curr_gridid, 0, 1, 5)
+        grid.addWidget(label_image_size_info, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_output_dir, curr_gridid, 0, 1, 1)
+        grid.addWidget(label_output_dir, curr_gridid, 0, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.edit_output_dir, curr_gridid, 0, 1, 4)
-        self.grid.addWidget(self.button_output_dir, curr_gridid, 4, 1, 1)
+        grid.addWidget(self.edit_output_dir, curr_gridid, 0, 1, 4)
+        grid.addWidget(button_output_dir, curr_gridid, 4, 1, 1)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_pdf, curr_gridid, 0, 1, 5)
+        grid.addWidget(label_pdf, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.checkbox_create_pdf, curr_gridid, 0, 1, 5)
+        grid.addWidget(self.checkbox_create_pdf, curr_gridid, 0, 1, 5)
 
         curr_gridid += 1
-        self.grid.addWidget(self.label_spacer, curr_gridid, 0, 7, 5)
+        grid.addWidget(label_spacer, curr_gridid, 0, 7, 5)
 
         curr_gridid += 8
-        self.grid.addWidget(self.button_cancel, curr_gridid, 0, 1, 1)
-        self.grid.addWidget(self.button_next_phase, curr_gridid, 1, 1, 4)
+        grid.addWidget(button_cancel, curr_gridid, 0, 1, 1)
+        grid.addWidget(button_next_phase, curr_gridid, 1, 1, 4)
 
-        self.setLayout(self.grid)
+        self.setLayout(grid)
         self._reset_enabled()
 
     def set_images(self, images):
+        """Sets images
+
+        :param images: The images
+        """
         if images:
             self.output_dir = os.path.dirname(images[0])
 
@@ -246,7 +254,7 @@ class PhaseOutputWidget(QWidget):
         dirname = QFileDialog.getExistingDirectory(self, "Select Directory", self.output_dir)
         if dirname:
             self.log(self.i18n.translate('GUI.PHASE.OUTPUT.LOG.SELECT_OUTPUT_DIR_SUCCESS').format(dirname))
-            logging.debug('Selected output directory: "{}"'.format(dirname))
+            logging.debug('Selected output directory: "%s"', dirname)
             self.output_dir = dirname
             self.edit_output_dir.setText(self.output_dir)
         else:
@@ -272,10 +280,10 @@ class PhaseOutputWidget(QWidget):
         if not self.output_dir:
             err.append(self.i18n.translate('GUI.PHASE.OUTPUT.ERROR.NO_OUTPUT_DIR_SELECTED'))
         if err:
-            logging.debug('Errors: {}'.format(err))
+            logging.debug('Errors: %s', err)
             msg = '<ul>'
-            for e in err:
-                msg += '<li>{}</li>'.format(e)
+            for _err in err:
+                msg += f'<li>{_err}</li>'
             msg += '</ul>'
             msgbox = QMessageBox()
             logo = self.image_cache.get_or_load_pixmap('img.logo', 'logo.png')

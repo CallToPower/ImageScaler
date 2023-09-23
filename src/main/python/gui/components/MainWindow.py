@@ -42,13 +42,31 @@ class MainWindow(QMainWindow):
         self.image_cache = image_cache
 
         self.state = None
+        self.statusbar = None
+        self.menu_bar = None
+        self.menu_application = None
+        self.action_about = None
+        self.action_quit = None
+        self.menu_language = None
+
+        self.phase_welcome_widget = None
+        self.phase_input_widget = None
+        self.phase_output_widget = None
+        self.phase_conversion_widget = None
+        self.phase_done_widget = None
+
+        self.images = []
+        self.config = {}
+        self.nr_converted_images = 0
+        self.nr_all_images = 0
+        self.pdf_written = False
 
     def init_ui(self):
         """Initiates application UI"""
         logging.debug('Initializing MainWindow GUI')
 
         if self._is_in_state(GUIState.INIT_UI):
-            logging.warn('Already initializing')
+            logging.warning('Already initializing')
             return
 
         self._set_state(GUIState.INIT_UI)
@@ -117,7 +135,7 @@ class MainWindow(QMainWindow):
 
             for lang in self.i18n.languages:
                 action = QAction(lang, self)
-                flag = self.image_cache.get_or_load_icon('img.flag.{}'.format(lang), '{}.png'.format(lang), 'flags')
+                flag = self.image_cache.get_or_load_icon(f'img.flag.{lang}', f'{lang}.png', 'flags')
                 if flag:
                     action.setIcon(flag)
                 action.triggered.connect(self._action_change_language)
@@ -134,7 +152,7 @@ class MainWindow(QMainWindow):
 
         :param state: The state
         """
-        logging.debug('Setting phase: {}'.format(state.name))
+        logging.debug('Setting phase: %s', state.name)
         self.state = state
 
     def _is_in_state(self, state):
@@ -187,7 +205,7 @@ class MainWindow(QMainWindow):
     def _phase_welcome(self):
         """Phase welcome init"""
         if self._is_in_state(GUIState.PHASE_WELCOME):
-            logging.warn('Already in phase {}'.format(self.state.name))
+            logging.warning('Already in phase %s', self.state.name)
             return
         self._set_state(GUIState.PHASE_WELCOME)
         self.show_message(self.i18n.translate('GUI.MAIN.LOG.PHASE.WELCOME'))
@@ -198,7 +216,7 @@ class MainWindow(QMainWindow):
     def _phase_input(self):
         """Phase input init"""
         if self._is_in_state(GUIState.PHASE_INPUT):
-            logging.warn('Already in phase {}'.format(self.state.name))
+            logging.warning('Already in phase %s', self.state.name)
             return
         self._set_state(GUIState.PHASE_INPUT)
         self.show_message(self.i18n.translate('GUI.MAIN.LOG.PHASE.INPUT'))
@@ -209,7 +227,7 @@ class MainWindow(QMainWindow):
     def _phase_output(self):
         """Phase _phase_output init"""
         if self._is_in_state(GUIState.PHASE_OUTPUT):
-            logging.warn('Already in phase {}'.format(self.state.name))
+            logging.warning('Already in phase %s', self.state.name)
             return
         self._set_state(GUIState.PHASE_OUTPUT)
         self.show_message(self.i18n.translate('GUI.MAIN.LOG.PHASE.OUTPUT'))
@@ -222,7 +240,7 @@ class MainWindow(QMainWindow):
     def _phase_conversion(self):
         """Phase conversion init"""
         if self._is_in_state(GUIState.PHASE_CONVERSION):
-            logging.warn('Already in phase {}'.format(self.state.name))
+            logging.warning('Already in phase %s', self.state.name)
             return
         self._set_state(GUIState.PHASE_CONVERSION)
         self.show_message(self.i18n.translate('GUI.MAIN.LOG.PHASE.CONVERSION'))
@@ -235,14 +253,14 @@ class MainWindow(QMainWindow):
     def _phase_done(self):
         """Phase done init"""
         if self._is_in_state(GUIState.PHASE_DONE):
-            logging.warn('Already in phase {}'.format(self.state.name))
+            logging.warning('Already in phase %s', self.state.name)
             return
         self._set_state(GUIState.PHASE_DONE)
         self.show_message(self.i18n.translate('GUI.MAIN.LOG.PHASE.DONE'))
 
         self.nr_converted_images = self.phase_conversion_widget.get_nr_converted_images()
         self.nr_all_images = self.phase_conversion_widget.get_nr_all_images()
-        self.pdf_written = self.phase_conversion_widget.isPdfWritten()
+        self.pdf_written = self.phase_conversion_widget.is_pdf_written()
         self.phase_done_widget.set_config(
             self.nr_converted_images,
             self.nr_all_images,
@@ -327,7 +345,7 @@ class MainWindow(QMainWindow):
 
     def next_phase(self):
         """Goes to the next phase"""
-        logging.debug('Switching from phase: {}'.format(self.state.name))
+        logging.debug('Switching from phase: %s', self.state.name)
         if self.state == GUIState.INIT_UI:
             self._phase_welcome()
         elif self.state == GUIState.PHASE_WELCOME:
@@ -342,8 +360,8 @@ class MainWindow(QMainWindow):
             self._reset_phases()
             self._phase_welcome()
         else:
-            logging.warn('No next phase defined')
-        logging.info('Current phase: {}'.format(self.state.name))
+            logging.warning('No next phase defined')
+        logging.info('Current phase: %s', self.state.name)
 
     def show_message(self, msg=''):
         """Shows a message in the status bar
