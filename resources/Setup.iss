@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ImageScaler"
-#define MyAppVersion "2.2.0"
+#define MyAppVersion "2.3.0"
 #define MyAppPublisher "CallToPower"
 #define MyAppURL "https://github.com/CallToPower/ImageScaler"
 #define MyAppExeName "ImageScaler.exe"
@@ -24,7 +24,7 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputBaseFilename=ImageScaler-Setup
-SetupIconFile=C:\Users\ctp\Documents\GitHub\ImageScaler\src\main\icons\Icon.ico
+SetupIconFile=C:\Users\Denis\Documents\GitHub\ImageScaler\src\main\icons\Icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -37,8 +37,8 @@ Name: "german"; MessagesFile: "compiler:Languages\German.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\ctp\Documents\GitHub\ImageScaler\dist\ImageScaler\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\ctp\Documents\GitHub\ImageScaler\dist\ImageScaler\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Denis\Documents\GitHub\ImageScaler\dist\ImageScaler\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Denis\Documents\GitHub\ImageScaler\dist\ImageScaler\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
