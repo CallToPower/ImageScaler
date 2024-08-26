@@ -11,12 +11,13 @@
 import logging
 import time
 from pathlib import Path
+import platform
 
 _app_config = {
     'author': 'Denis Meyer',
-    'version': '2.2.0',
-    'build': '2023-09-23-1',
-    'copyright': '© 2019-2023 Denis Meyer',
+    'version': '2.3.0',
+    'build': '2024-08-26-1',
+    'copyright': '© 2019-2024 Denis Meyer',
     'conf.folder': 'ImageScaler',
     'conf.name': 'conf.json',
     'language.main': 'en',
@@ -34,6 +35,20 @@ _app_config = {
     'logging.datefmt': '%d-%m-%Y %H:%M:%S',
     'logging.logfile': str(Path.home()) + '/ImageScaler/logs/application-' + time.strftime('%d-%m-%Y-%H-%M-%S') + '.log'
 }
+
+def is_macos():
+    """Returns whether current os is macos
+    
+    :return: true if current os is macos, false else
+    """
+    return platform.system() == 'Darwin'
+
+if is_macos():
+    _app_config_macos = dict(_app_config)
+    _app_config_macos['label.header.font.size'] = 18
+    _app_config_macos['label.header.small.font.size'] = 16
+    _app_config_macos['label.info.font.size'] = 14
+    _app_config_macos['label.info.small.font.size'] = 12
 
 def get_loglevel():
     """Returns the log level
@@ -73,7 +88,10 @@ def app_conf_set(key, value):
     :param key: The key
     :param value: The value
     """
-    _app_config[key] = value
+    if is_macos():
+        _app_config_macos[key] = value
+    else:
+        _app_config[key] = value
 
 def app_conf_get(key, default=''):
     """Returns the value for the given key or - if not found - a default value
@@ -82,7 +100,10 @@ def app_conf_get(key, default=''):
     :param default: The default if no value could be found for the key
     """
     try:
-        return _app_config[key]
+        if is_macos():
+            return _app_config_macos[key]
+        else:
+            return _app_config[key]
     except KeyError as exception:
         logging.error('Returning default for key "%s": "%s"', key, exception)
         return default

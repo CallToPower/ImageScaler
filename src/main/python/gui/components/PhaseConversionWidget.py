@@ -115,7 +115,8 @@ class PhaseConversionWidget(QWidget):
         label_image_size_height.setFont(font_label_info)
         label_image_size_height.setAlignment(Qt.AlignLeft)
 
-        label_image_size_info = QLabel(self.i18n.translate('GUI.PHASE.CONVERSION.LABEL.IMAGE_SIZE_INFO'))
+        _size_info_addition = '.HEIGHT' if ('IMG_WIDTH' in self.config and self.config['IMG_WIDTH']) else '.WIDTH'
+        label_image_size_info = QLabel(self.i18n.translate('GUI.PHASE.CONVERSION.LABEL.IMAGE_SIZE_INFO' + _size_info_addition))
         label_image_size_info.setFont(font_label_info_small)
         label_image_size_info.setAlignment(Qt.AlignLeft)
 
@@ -175,8 +176,11 @@ class PhaseConversionWidget(QWidget):
         grid.addWidget(label_image_size_width, curr_gridid, 1, 1, 9)
         curr_gridid += 1
         grid.addWidget(label_image_size_height, curr_gridid, 1, 1, 9)
-        curr_gridid += 1
-        grid.addWidget(label_image_size_info, curr_gridid, 1, 1, 9)
+        has_width = 'IMG_WIDTH' in self.config and self.config['IMG_WIDTH']
+        has_height = 'IMG_HEIGHT' in self.config and self.config['IMG_HEIGHT']
+        if (has_width and not has_height) or (has_height and not has_width):
+            curr_gridid += 1
+            grid.addWidget(label_image_size_info, curr_gridid, 1, 1, 9)
 
         curr_gridid += 1
         grid.addWidget(label_output_dir, curr_gridid, 0, 1, 10)
@@ -195,7 +199,7 @@ class PhaseConversionWidget(QWidget):
         grid.addWidget(label_spacer, curr_gridid, 0, 7, 10)
 
         curr_gridid += 8
-        grid.addWidget(self.progressbar, curr_gridid, 1, 1, 9)
+        grid.addWidget(self.progressbar, curr_gridid, 0, 1, 10)
 
         curr_gridid += 1
         grid.addWidget(button_cancel, curr_gridid, 0, 1, 4)

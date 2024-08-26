@@ -18,7 +18,7 @@ from gui.components.MainWindow import MainWindow
 
 from lib.ImageCache import ImageCache
 from lib.Utils import _load_conf_from_home_folder, save_conf, update_logging
-from lib.AppConfig import app_conf_get, app_conf_set, get_public_values
+from lib.AppConfig import app_conf_get, app_conf_set, get_public_values, is_macos
 
 class GUI():
     """Main GUI"""
@@ -48,6 +48,9 @@ class GUI():
             save_conf(get_public_values())
 
         update_logging(app_conf_get('logging.loglevel'), logtofile=app_conf_get('logging.log_to_file'))
+
+        if is_macos():
+            logging.info('Platform is macos')
 
         self.image_cache = ImageCache(self.basedir)
         self.i18n = I18n(self.basedir, lang=app_conf_get('language.main'))
