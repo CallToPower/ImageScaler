@@ -36,6 +36,7 @@ def _load_conf(file_path):
     """Loads the configuration
 
     :param file_path: The file path
+    :return loaded, config
     """
     config = {}
     loaded = False
@@ -50,8 +51,11 @@ def _load_conf(file_path):
 
     return loaded, config
 
-def _load_conf_from_home_folder():
-    """Loads the configuration from home folder"""
+def load_conf_from_home_folder():
+    """Loads the configuration from home folder
+    
+    :return Loadec config
+    """
     homedir = str(Path.home())
     homefolder = app_conf_get('conf.folder')
     file = app_conf_get('conf.name')
@@ -90,6 +94,7 @@ def load_languages(basedir):
     """Loads the available languages
 
     :param basedir: The base path
+    :return: Languages
     """
     logging.info('Loading available languages')
     path = os.path.join(basedir, 'resources', 'i18n')
@@ -102,6 +107,7 @@ def load_i18n(basedir, lang):
 
     :param basedir: The base path
     :param lang: The language
+    :return: Translations
     """
     file_path = os.path.join(basedir, 'resources', 'i18n', f'{lang}.json')
     logging.info('Trying to load translations from "%s"', file_path)
@@ -127,6 +133,7 @@ def load_pixmap(basedir, file, base_path=None):
     :param basedir: The base path
     :param file: The file to load from
     :param base_path: The base path
+    :return: Image
     """
     if not base_path:
         file_path = os.path.join(basedir, 'resources', file)
@@ -146,6 +153,7 @@ def load_icon(basedir, file, base_path=None):
     :param basedir: The base path
     :param file: The file to load from
     :param base_path: The base path
+    :return: Icon image
     """
     if not base_path:
         file_path = os.path.join(basedir, 'resources', file)

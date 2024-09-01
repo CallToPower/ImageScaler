@@ -46,7 +46,7 @@ app = BUNDLE(coll,
              name='ImageScaler.app',
              icon='src/main/icons/icons.icns',
              bundle_identifier=None,
-             version='2.3.0',
+             version='2.3.1',
              info_plist={
                  'NSPrincipalClass': 'NSApplication',
                  'NSAppleScriptEnabled': False

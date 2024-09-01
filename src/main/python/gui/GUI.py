@@ -17,7 +17,7 @@ from i18n.I18n import I18n
 from gui.components.MainWindow import MainWindow
 
 from lib.ImageCache import ImageCache
-from lib.Utils import _load_conf_from_home_folder, save_conf, update_logging
+from lib.Utils import load_conf_from_home_folder, save_conf, update_logging
 from lib.AppConfig import app_conf_get, app_conf_set, get_public_values, is_macos
 
 class GUI():
@@ -28,7 +28,7 @@ class GUI():
         
         :param basedir: The base directory
         """
-        logging.debug('Initializing MainGUI')
+        logging.debug('Initializing GUI')
 
         self.basedir = basedir
 
@@ -38,7 +38,7 @@ class GUI():
 
     def _init(self):
         """Initializes the GUI"""
-        conf_loaded, conf = _load_conf_from_home_folder()
+        conf_loaded, conf = load_conf_from_home_folder()
 
         if conf_loaded:
             for key, val in conf.items():

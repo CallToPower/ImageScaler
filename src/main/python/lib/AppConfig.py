@@ -15,8 +15,8 @@ import platform
 
 _app_config = {
     'author': 'Denis Meyer',
-    'version': '2.3.0',
-    'build': '2024-08-26-1',
+    'version': '2.3.1',
+    'build': '2024-09-01-1',
     'copyright': '© 2019-2024 Denis Meyer',
     'conf.folder': 'ImageScaler',
     'conf.name': 'conf.json',
@@ -36,6 +36,14 @@ _app_config = {
     'logging.logfile': str(Path.home()) + '/ImageScaler/logs/application-' + time.strftime('%d-%m-%Y-%H-%M-%S') + '.log'
 }
 
+_public_value_fields = [
+    'window.width',
+    'window.height',
+    'language.main',
+    'logging.log_to_file',
+    'logging.loglevel'
+]
+
 def is_macos():
     """Returns whether current os is macos
     
@@ -44,6 +52,7 @@ def is_macos():
     return platform.system() == 'Darwin'
 
 if is_macos():
+    """Sets some attributes if current OS is macOS"""
     _app_config_macos = dict(_app_config)
     _app_config_macos['label.header.font.size'] = 18
     _app_config_macos['label.header.small.font.size'] = 16
@@ -66,21 +75,7 @@ def get_loglevel():
 
 def get_public_values():
     """Returns a dict with public values to write to a config file"""
-    vals = ['window.width',
-            'window.height',
-            'label.header.font.size',
-            'label.header.small.font.size',
-            'label.info.font.size',
-            'label.info.small.font.size',
-            'language.main',
-            'logging.log_to_file',
-            'logging.loglevel'
-            ]
-    _dict = {}
-    for val in vals:
-        _dict[val] = app_conf_get(val)
-
-    return _dict
+    return {val: app_conf_get(val) for val in _public_value_fields}
 
 def app_conf_set(key, value):
     """Sets the value for the given key
@@ -100,10 +95,7 @@ def app_conf_get(key, default=''):
     :param default: The default if no value could be found for the key
     """
     try:
-        if is_macos():
-            return _app_config_macos[key]
-        else:
-            return _app_config[key]
+        return _app_config_macos[key] if is_macos() else _app_config[key]
     except KeyError as exception:
         logging.error('Returning default for key "%s": "%s"', key, exception)
         return default
