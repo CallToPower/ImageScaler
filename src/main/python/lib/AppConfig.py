@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: 'utf-8 -*-
 #
-# Copyright 2019-2022 Denis Meyer
+# Copyright 2019-2025 Denis Meyer
 #
 # This file is part of ImageScaler.
 #
@@ -15,9 +15,9 @@ import platform
 
 _app_config = {
     'author': 'Denis Meyer',
-    'version': '2.3.1',
-    'build': '2024-09-01-1',
-    'copyright': '© 2019-2024 Denis Meyer',
+    'version': '2.3.2',
+    'build': '2025-12-23-1',
+    'copyright': '© 2019-2025 Denis Meyer',
     'conf.folder': 'ImageScaler',
     'conf.name': 'conf.json',
     'language.main': 'en',
